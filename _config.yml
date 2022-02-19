@@ -6,14 +6,14 @@ language: 'en-uk'
 words_per_minute: 200
 
 # edit baseurl to simply '/' if using as your personal page (instead of a project page)
-baseurl: /jasper2/
+baseurl: /
 
 # Website info
-title: Ghost
-description: The professional publishing platform
-cover: assets/images/blog-cover.jpg
-logo: assets/images/blog-icon.png
-logo_dark: assets/images/favicon.png
+title: Exploring AI
+description: Come explore the wonders of AI
+cover: assets/images/thelogo.PNG
+logo: #assets/images/blog-icon.png
+logo_dark: #assets/images/favicon.png
 favicon: assets/images/favicon.png
 CNAME: #add cname for website to be created
 
@@ -22,15 +22,15 @@ navigation: True # show the navbar links
 subscribers: True # you need to connect an external service for this to work,
 # if 'True' the submit button is disabled for now, but you can change that
 # by editing `_includes/subscribe-form.html`
-twitter: tryghost # replace by your username
-facebook: ghost # replace by your username
+twitter: exploringaiblog # replace by your username
+facebook: #ghost # replace by your username
 
 # Disqus
 disqus: False
-disqus_shortname: jekyllt # replace with your disqus username
+disqus_shortname: #jekyllt # replace with your disqus username
 
 # Google Analytics
-google_analytics: UA-69281367-1 # replace with your GA tracking identifier
+google_analytics: G-34GQSQ4DKR 
 
 # Permalinks
 permalink: /:title
@@ -67,13 +67,13 @@ feed:
 # or "master" otherwise
 safe: False
 lsi: False
-username: jekyllt
-repo: jasper2
+username: florestony54
+repo: exploring-ai
 branch: master
 relative_source: ../jasper2/
-destination: ../jasper2-pages/
-production_url:  https://jekyllt.github.io/jasper2/
-source_url:  https://github.com/jekyllt/jasper2/
+destination: ../docs/
+production_url:  https://exploring-ai.com/
+source_url:  https://github.com/florestony54/exploring-ai/
 
 exclude:
   - assets/css

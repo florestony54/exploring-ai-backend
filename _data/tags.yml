@@ -1,16 +1,40 @@
-speeches:
-  name: speeches
-  description: Some of the greatest words ever spoken.
-  cover: assets/images/speeches.jpg
-fiction:
-  name: fiction
+AI-applications:
+  name: ai-applications
   description: False
   cover: False
-fables:
-  name: fables
-  description: A series of short stories that make you think.
-  cover: assets/images/fables.jpg
-getting-started:
-  name: getting-started
+deep-learning:
+  name: deep-learning
+  description: False
+  cover: False
+computer-vision:
+  name: computer-vision
+  description: False
+  cover: False
+courses:
+  name: courses
+  description: False
+  cover: False
+news:
+  name: news
+  description: False
+  cover: False
+machine-learning:
+  name: machine-learning
+  description: False
+  cover: False
+data-science:
+  name: data-science
+  description: False
+  cover: False
+papers:
+  name: papers
+  description: False
+  cover: False
+robotics:
+  name: robotics
+  description: False
+  cover: False
+ai-in-business:
+  name: ai-in-business
   description: False
   cover: False
