@@ -429,11 +429,14 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     display: block;
     margin-bottom: 4px;
     color: var(--midgrey);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     line-height: 1.15em;
     font-weight: 500;
     letter-spacing: 0.5px;
     text-transform: uppercase;
+    background-color: #00f3ff;
+    width: fit-content;
+    padding: 3px;
 }
 
 .post-card-title {

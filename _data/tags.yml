@@ -1,10 +1,14 @@
+blog-announcements:
+  name: blog-announcements
+  description: False
+  cover: False
 AI-applications:
   name: ai-applications
   description: False
   cover: False
 deep-learning:
   name: deep-learning
-  description: False
+  description: Everything about the specifics of neural networks and deep learning
   cover: False
 computer-vision:
   name: computer-vision
@@ -36,5 +40,9 @@ robotics:
   cover: False
 ai-in-business:
   name: ai-in-business
+  description: False
+  cover: False
+ai-theory:
+  name: ai-theory
   description: False
   cover: False

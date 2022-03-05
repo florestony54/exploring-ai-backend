@@ -2,16 +2,17 @@
 layout: page
 current: about
 title: About
+cover:  assets/images/thelogo.PNG
 navigation: true
-logo: 'assets/images/ghost.png'
+logo: 'assets/images/myicon.PNG'
 class: page-template
 subclass: 'post page'
 ---
 
-Ghost is professional publishing platform designed for modern journalism. This is a demo site of a basic Ghost install to give you a general sense of what a new Ghost site looks like when set up for the first time.
+Hello! I'm Tony, the creator of this site.
 
-> If you'd like to set up a site like this for yourself, head over to [Ghost.org](https://ghost.org/) and start a free 14 day trial to give Ghost a try!
+In short, my mission for this site is simply to share ideas related to artificial intelligence. From the most basic and fundamental concepts to bleeding-edge research. I aim to keep the scope confined to AI-related topics, but hope that it stays broad enough so that visitors from all sorts of backgrounds can find something interesting.
 
-If you're a developer: Ghost is a completely open source (MIT) Node.js application built on a JSON API with an Ember.js admin client. It works with MySQL and SQLite, and is publicly available [on Github](https://github.com/TryGhost/ghost).
+I hope that those who happen to stop by here along their journey in AI discovery will leave with at least one extra bit of knowledge or information. I am by no means an expert in AI. I'm just a software developer with an M.S. in Computer Science, and a passion for AI. I love learning new things, and I enjoy sharing my new discoveries with others just as much.
 
-If you need help with using Ghost, you'll find a ton of useful articles on [our knowledgebase](https://help.ghost.org/), as well as extensive [developer documentation](https://docs.ghost.org/).
+Welcome to the site. I hope you enjoy your stay! 
