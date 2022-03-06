@@ -19,7 +19,7 @@ For this tutorial, we will check out the base components of PyTorch, then walk t
 
 # The Tensor
 
-The central component of PyTorch is the **tensor** data structure. If you're familiar with NumPy (if youre not, check out my NumPy article in [Towards Data Science](https://towardsdatascience.com/intermediate-python-numpy-cec1c192b8e6)), PyTorch tensors are similar to NumPy ndarrays, with the key difference being that they are CUDA-capable, and built to run on hardware accelerators, like GPUs. Another important feature that tensors possess is that they are optimized for [automatic differentiation](https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html), which is the basis of the neural network training algorithm known as **back propagation**. These two optimizations are crucial for deep learning:
+The central component of PyTorch is the **tensor** data structure. If you're familiar with NumPy (if you're not, check out my NumPy article in [Towards Data Science](https://towardsdatascience.com/intermediate-python-numpy-cec1c192b8e6)), PyTorch tensors are similar to NumPy ndarrays, with the key difference being that they are CUDA-capable, and built to run on hardware accelerators, like GPUs. Another important feature that tensors possess is that they are optimized for [automatic differentiation](https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html), which is the basis of the neural network training algorithm known as **back propagation**. These two optimizations are crucial for deep learning:
 
 * the vast amounts of data, features, and training iterations that deep learning usually encompasses requires the massively-parallel architecture of GPU's to train in reasonable amounts of time
 * training through back propagation necessitates efficient and precise differentiation
@@ -121,7 +121,7 @@ A_tensor_rand.device
 # device(type='cpu')
 ```
 
-Creating tensors is fine, but the real fun starts when we can start manipulating them and applying mathematical oprations. There are a **ton** of neat tensor operations already built-in, so we certainly won't have time to go through them all. Instead, I'll give you a [link to check them out in further detail](https://pytorch.org/docs/stable/torch.html), and just name a few:
+Creating tensors is fine, but the real fun starts when we can start manipulating them and applying mathematical operations. There are a **ton** of neat tensor operations already built-in, so we certainly won't have time to go through them all. Instead, I'll give you a [link to check them out in further detail](https://pytorch.org/docs/stable/torch.html), and just name a few:
 
 * matrix multiplication
 * compute eigenvectors and eigenvalues
