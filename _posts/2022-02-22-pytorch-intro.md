@@ -4,7 +4,7 @@ current: post
 cover:  assets/images/py-torch.png
 navigation: True
 title: "Intro to PyTorch: Part 1"
-date: 2022-02-22 18:00:00
+date: 2022-03-06 08:00:00
 tags: [Tutorial]
 class: post-template
 subclass: 'post'
@@ -13,9 +13,9 @@ author: tony
 
 # Intro to the Intro
 
-PyTorch, based on the Torch library, is one of the most popular deep learning frameworks for machine learning practitioners. 
+Based on the Torch library, PyTorch is one of the most popular deep learning frameworks for machine learning practitioners. Some of the things that make PyTorch popular are it's ease of use, dynamic computational graph, and the fact that it feels more "Pythonic" than other frameworks like Tensorflow.
 
-For this tutorial, we will check out the base components of PyTorch, then walk through an image classification task, using the CIFAR10 dataset. Since PyTorch is loaded with tons of features, and there are tons of ways to apply these features, this obviously won't be comprehensive. The purpose of this post is to serve as an introduction to the package and some of the components that you will use, as well as provide some resources so you can continue your journey. 
+For this tutorial, we will check out the base components of PyTorch, then walk through an image classification task, using the CIFAR10 dataset. Since PyTorch is loaded with tons of features, and there are tons of ways to apply them, this obviously won't be comprehensive. The purpose of this post is to serve as an introduction to the package and some of the components that you will use, as well as provide some resources so you can continue your journey. 
 
 # The Tensor
 
@@ -127,7 +127,7 @@ Creating tensors is fine, but the real fun starts when we can start manipulating
 * compute eigenvectors and eigenvalues
 * sorting
 * index,slice,join
-* hamming window (not sure what this is, but sounds interesting!!)
+* hamming window (not sure what this is, but sounds cool!!)
 
 # Dataset and Dataloader Modules
 
@@ -188,7 +188,7 @@ Now obviously built-in datasets will not be all you need as a machine learning p
 
 ### DataLoader
 
-The dataset will iterate through each sample 1 by 1, so PyTorch gives us the DataLoader module to easily create minibatches of our datasets. `DataLoader` allows us to specify the `batch_size` as well as shuffle the data:
+Iterating through the dataset will go through each sample 1 by 1, so PyTorch gives us the DataLoader module to easily create minibatches in our datasets. `DataLoader` allows us to specify the `batch_size` as well as shuffle the data:
 
 ```python
 train_dataloader = DataLoader(training_data, batch_size = 32, shuffle = True)
@@ -246,8 +246,6 @@ from torchvision.datasets import CIFAR10
 from torchvision.transforms import ToTensor
 from torchvision.transforms import Normalize, Compose
 import os
-import glob
-import io
 import matplotlib.pyplot as plt
 import numpy as np
 ```
@@ -265,7 +263,7 @@ Here is a nice visualization of the dataset from the home source:
 |:--:| 
 | *Source: https://www.cs.toronto.edu/~kriz/cifar.html* |
 
-The goal for this project will be to build a model that can classify images as one of the 10 classifications, aiming for a high degree of accuracy. 
+The goal for this project will be to build a model that can accurately classify images as one of the 10 classifications. 
 
 # Loading the dataset 
 
@@ -302,8 +300,12 @@ Now that we have our dataset downloaded and normalized, we can prepare it to get
 ```py
 batch_size = 4
 
-train_dataloader = DataLoader(training_data, batch_size=batch_size, shuffle=True)
-test_dataloader = DataLoader(test_data, batch_size=batch_size, shuffle=True)
+train_dataloader = DataLoader(training_data, 
+                              batch_size=batch_size, 
+                              shuffle=True)
+test_dataloader = DataLoader(test_data, 
+                             batch_size=batch_size, 
+                             shuffle=True)
 ```
 
 `DataLoader` is an iterable, so let's take a look at `train_dataloader` by checking out the dimensions of one iteration:
@@ -466,7 +468,7 @@ def test(dataloader, model, loss_fn):
 
 # Training our Model
 
-Now that we have the dataset loaded and pre-processed, the neural network built out, and the loss function/optimizer/training loop defined... we're ready to train! 
+Now that we have the dataset loaded and pre-processed, the neural network built out, and the loss function/optimizer/training loop defined... we're ready to train! Specify the number of `epochs` that you want to train the model for. Each epoch will go through a `train` loop, which outputs progress every 2000 samples, then it will `test` the model on the test set, and output the accuracy and loss on the test set after each epoch.
 
 ```py
 epochs = 10
@@ -479,22 +481,27 @@ print("Done!")
 
 | ![](../assets/images/train-prog.jpg) |
 | :--: |
-| *Output of each training epoch* |
+| *This is the what the output should look like for each training epoch* |
 
 
 # Saving and Loading a Model
 
+After training finishes, if you'd like to save your model to use for inference, use `torch.save()`. Pass `model.state_dict()` as the first argument; this is just a Python dictionary object which maps layers to their respective learned parameters (weights and biases). For the second argument, name your saved model (it's common convention to save PyTorch models using `.pth` or `.pt` extensions). You can also specify a full path for this argument if you prefer to save it in a specific location.
+
 ```py
 torch.save(model.state_dict(), "cifar_fc.pth")
 ```
+
+When you want to load your model for inference, use `torch.load()` to grab your saved model, and map the learned parameters with `load_state_dict`.
 
 ```py
 model = NeuralNetwork()
 model.load_state_dict(torch.load("cifar_fc.pth"))
 ```
 
-
 # Evaluating the Model
+
+You can iterate through the `test_dataloader` to check out a sample of images with their labels.
 
 ```py
 dataiter = iter(test_dataloader)
@@ -502,7 +509,43 @@ images, labels = dataiter.next()
 
 imshow(make_grid(images))
 print('Ground Truth: ', ' '.join(f'{classes[labels[j]]:5s}' for j in range(4)))
+
 ```
+
+![](../assets/images/img-labels.jpg)
+
+Then compare it to our model's predicted labels to get a preview of it's performance:
+
+
+```py
+outputs = model(images)
+_, predicted = torch.max(outputs, 1)
+
+print('Predicted: ', ' '.join(f'{classes[predicted[j]]:5s}' for j in range(4)))
+# Predicted:  dog   ship  automobile deer 
+```
+
+So we can see, our model seems like it's learning to classify! Let's see the numbers for our model's performance.
+
+```py
+ correct = 0
+ total = 0
+
+ with torch.no_grad():
+   for data in test_dataloader:
+     images, labels = data
+     outputs = model(images)
+     _, predicted = torch.max(outputs.data, 1)
+     total += labels.size(0)
+     correct += (predicted == labels).sum().item()
+
+print(f'Model accuracy: {100 * correct // total} %')
+# Model accuracy: 53 %
+```
+Accuracy of **53%** is not state-of-the-art, but it's much better than randomly guessing or just predicting one class, so our model has definitely learned some! :)
+
+Next, we can quickly check out how it performed at classifying each class:
+
 
 ```py
 correct_pred = {classname: 0 for classname in classes}
@@ -522,11 +565,28 @@ with torch.no_grad():
 for classname, correct_count in correct_pred.items():
   accuracy = 100 * float(correct_count) / total_pred[classname]
   print(f'Accuracy for class {classname:5s}: {accuracy:.1f}%')
+# Accuracy for class airplane: 58.9%
+# Accuracy for class automobile: 61.2%
+# Accuracy for class bird : 33.5%
+# Accuracy for class cat  : 35.4%
+# Accuracy for class deer : 52.8%
+# Accuracy for class dog  : 49.4%
+# Accuracy for class frog : 60.6%
+# Accuracy for class horse: 59.6%
+# Accuracy for class ship : 64.5%
+# Accuracy for class truck: 63.1%
 ```
-
+So now we have a little better insight into our model's performance: images of cats and birds were more difficult for the network to classify. 
 
 # To be continued...
 
+Obviously, fully connected networks like the one we built in this tutorial aren't typically used for image classification. In part 2 of this tutorial, we will focus a little more on optimizing performance in PyTorch:
+* using CNNs for image classification
+* hyperparameter tuning
+* data augmentation
+* transfer learning
+
+I hope you enjoyed, and learned a little. If you'd like to learn more, PyTorch has some excellent [documentation](https://pytorch.org/docs/stable/index.html), so I encourage you to check it out! Thanks for reading!
 
 | ![](./../assets/images/pytorch.png) |
 |:--:| 
