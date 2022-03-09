@@ -2,7 +2,7 @@ blog-announcements:
   name: blog-announcements
   description: False
   cover: False
-AI-applications:
+ai-applications:
   name: ai-applications
   description: False
   cover: False
@@ -44,5 +44,13 @@ ai-in-business:
   cover: False
 ai-theory:
   name: ai-theory
+  description: False
+  cover: False
+series:
+  name: series
+  description: False
+  cover: False
+lit-review:
+  name: lit-review
   description: False
   cover: False
