@@ -437,6 +437,7 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     background-color: #00f3ff;
     width: fit-content;
     padding: 2px;
+    border-radius: 2px;
 }
 
 .post-card-title {

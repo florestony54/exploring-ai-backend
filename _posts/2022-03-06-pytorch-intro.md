@@ -588,6 +588,9 @@ Obviously, fully connected networks like the one we built in this tutorial aren'
 
 I hope you enjoyed, and learned a little. If you'd like to learn more, PyTorch has some excellent [documentation](https://pytorch.org/docs/stable/index.html), so I encourage you to check it out! Thanks for reading!
 
+## [Published in Towards Data Science](https://medium.com/towards-data-science/intro-to-pytorch-part-1-663574fb9675)
+
 | ![](./../assets/images/pytorch.png) |
 |:--:| 
 | *PyTorch is pretty awesome :)* |
+
