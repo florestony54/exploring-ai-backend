@@ -51,7 +51,7 @@ Structural orientation and morphology on a higher order will affect properties a
 In polymer informatics, machine learning can be applied to accelerated characterization of polymers, modeling and analysis, prediction of properties, and molecular design. Applying ML to the research workflow can lead to substantial savings in time and money, since most of the trial-and-error process is reduced by computation and prediction, greatly narrowing the search space for the actual work done in the lab. It sounds like an incredible solution to advancing research, but there are key challenges that must be taken into consideration: 
 
 * limited data related to polymers
-* normally requires a hybrid appraoch with expert input
+* normally requires a hybrid approach with expert input
 * lab analysis required for validation
 
 As more work is done in this space, the impact of these challenges should reduce significantly. With that said, the paper chosen for this review focuses on molecular design, and has a really interesting way of overcoming one of these key challenges. Let's check it out!
