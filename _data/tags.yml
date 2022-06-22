@@ -54,3 +54,11 @@ lit-review:
   name: lit-review
   description: False
   cover: False
+fundamentals:
+  name: fundamentals
+  description: False
+  cover: False
+stats:
+  name: stats
+  description: False
+  cover: False
