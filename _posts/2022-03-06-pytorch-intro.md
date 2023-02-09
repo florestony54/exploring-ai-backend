@@ -5,7 +5,7 @@ cover:  assets/images/torchcolor1.jpg
 navigation: True
 title: "Intro to PyTorch: Part 1"
 date: 2022-03-06 08:00:00
-tags: [Tutorial, series]
+tags: [Tutorial, series, deep learning]
 class: post-template
 subclass: 'post'
 author: tony
