@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator>
+  <link href="/tag/blog-announcements/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="/" rel="alternate" type="text/html" />
+  <updated>2024-02-12T17:39:21+00:00</updated>
+  <id>/tag/blog-announcements/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">Exploring AI | </title>
+  
+
+  
+    <subtitle>Come explore the wonders of AI</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Welcome to the Exploring AI Blog</title>
+      <link href="/welcome" rel="alternate" type="text/html" title="Welcome to the Exploring AI Blog" />
+      <published>2022-02-18T08:00:00+00:00</published>
+      <updated>2022-02-18T08:00:00+00:00</updated>
+      <id>/welcome</id>
+      <content type="html" xml:base="/welcome">&lt;h3 id=&quot;welcome-friends&quot;&gt;Welcome, friends!&lt;/h3&gt;
+&lt;p&gt;I’m Tony, the creator of this site.&lt;/p&gt;
+
+&lt;p&gt;In short, my mission for this site is simply to share ideas related to artificial intelligence. From the most basic and fundamental concepts to bleeding-edge research. I aim to keep the scope confined to AI-related topics, but hope that it stays broad enough so that visitors from all sorts of backgrounds can find something interesting.&lt;/p&gt;
+
+&lt;p&gt;I hope that those who happen to stop by here along their journey in AI discovery will leave with at least one extra bit of knowledge or information. I am by no means an expert in AI. I’m just a software developer with an M.S. in Computer Science, and a passion for AI. I love learning new things, and I enjoy sharing my new discoveries with others just as much.&lt;/p&gt;
+
+&lt;p&gt;Welcome to the site. I hope you enjoy your stay!&lt;/p&gt;
+
+&lt;h3 id=&quot;lets-being-our-journey-with-a-cool-image-from-nasa&quot;&gt;Let’s being our journey with a cool image from NASA&lt;/h3&gt;
+
+&lt;p&gt;Entitled “A Farewell to Saturn”, this full mosaic of 42 wide-angle shots was taken from NASA’s Cassini spacecraft. You can read more about it at the &lt;a href=&quot;https://www.jpl.nasa.gov/images/pia17218-a-farewell-to-saturn&quot;&gt;NASA JPL site&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/images/saturn.jpg&quot; alt=&quot;A cool photo from NASA&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>Tony Flores</name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="Blog Announcements" />
+      
+
+      
+        <summary type="html">Welcome, friends! I’m Tony, the creator of this site.</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Machine Learning in Chemistry</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="Come explore the wonders of AI" />
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="/chemistry-ml" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="Exploring AI" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Machine Learning in Chemistry" />
+    <meta property="og:description" content="Machine Learning in Chemistry Machine learning is becoming a significant tool in the field of chemistry, providing new opportunities in various areas such as drug discovery and materials science. Machine learning algorithms, especially neural networks, are effective at identifying complex patterns in chemical data, which can lead to new insights" />
+    <meta property="og:url" content="/chemistry-ml" />
+    <meta property="og:image" content="/assets/images/chem-ml-hero.png" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2024-02-09T08:00:00+00:00" />
+    <meta property="article:modified_time" content="2024-02-09T08:00:00+00:00" />
+    <meta property="article:tag" content="Applications" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Machine Learning in Chemistry" />
+    <meta name="twitter:description" content="Machine Learning in Chemistry Machine learning is becoming a significant tool in the field of chemistry, providing new opportunities in various areas such as drug discovery and materials science. Machine learning algorithms, especially neural networks, are effective at identifying complex patterns in chemical data, which can lead to new insights" />
+    <meta name="twitter:url" content="/" />
+    <meta name="twitter:image" content="/assets/images/chem-ml-hero.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Exploring AI" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Applications" />
+    <meta name="twitter:site" content="@exploringaiblog" />
+    <meta name="twitter:creator" content="@exploringaiblog" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Exploring AI",
+        "logo": "/"
+    },
+    "url": "/chemistry-ml",
+    "image": {
+        "@type": "ImageObject",
+        "url": "/assets/images/chem-ml-hero.png",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "/chemistry-ml"
+    },
+    "description": "Machine Learning in Chemistry Machine learning is becoming a significant tool in the field of chemistry, providing new opportunities in various areas such as drug discovery and materials science. Machine learning algorithms, especially neural networks, are effective at identifying complex patterns in chemical data, which can lead to new insights"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="Machine Learning in Chemistry" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="/">Exploring AI</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">About</a></li>
+    <!-- <li class="nav-getting-started" role="menuitem"><a href="/tag/getting-started/">Getting Started</a></li> -->
+    <!-- <li class="nav-try-ghost" role="menuitem"><a href="https://ghost.org">Try Ghost</a></li> -->
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+        </div>
+        
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-applications tag-series tag-literature-review post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime=" 9 February 2024"> 9 February 2024</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/applications/'>APPLICATIONS</a>,
+                            
+                        
+                            
+                               <a href='/tag/series/'>SERIES</a>,
+                            
+                        
+                            
+                               <a href='/tag/literature-review/'>LITERATURE REVIEW</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">Machine Learning in Chemistry</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/chem-ml-hero.png)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <h1 id="machine-learning-in-chemistry">Machine Learning in Chemistry</h1>
+
+<p>Machine learning is becoming a significant tool in the field of chemistry, providing new opportunities in various areas such as drug discovery and materials science. Machine learning algorithms, especially neural networks, are effective at identifying complex patterns in chemical data, which can lead to new insights and speed up processes that were previously dependent on traditional, more time consuming methods. As we examine the impact of machine learning on chemistry, we will look at its uses, and how it not only simplifies regular tasks but also leads to advancements in understanding molecular complexities.</p>
+
+<p>Recently, the combination of machine learning and chemistry has made significant progress. Researchers are using advanced models like CNNs and RNNs for tasks such as creating new drugs, predicting toxicology, and modeling quantitative structure-activity relationships. The pursuit of models that are interpretable and explainable is becoming more important, giving scientists a better understanding of why predictions are made. Additionally, the use of multi-modal data and the development of transfer learning techniques are expanding what can be achieved in predicting material properties and optimizing synthesis planning. These recent trends highlight the growing collaboration between machine learning and chemistry, pushing scientific research into new areas and influencing the future of chemical research.</p>
+
+<hr />
+
+<h2 id="chemistry-applications-for-machine-learning">Chemistry Applications for Machine Learning</h2>
+
+<p>A lot of different applications in chemistry research are utilizing machine learning to accelerate processes, discover new chemicals and compounds, and predict behaviors of chemicals in different environments and reactions. Let’s take a look at some interesting chemistry domains, and see how machine learning is being leveraged to further research.</p>
+
+<h4 id="drug-discovery-and-design">Drug Discovery and Design</h4>
+
+<p><img src="../assets/images/drug.jpeg" alt="" /></p>
+
+<p>Machine learning can aid in the discovery of new drugs by making predictions at different points in the process. For drugs to take effect on the body, they need to bind to a protein or enzyme in order to trigger the cascade of reactions that lead to the desired effect.  Predicting the drug-protein interaction (DPI) is crucial for drug discovery, since accurate predictions can serve as strong indicators for the biological function that will be affected. The efficacy of a drug, prognostic biomarker identification, clinical trial design, and even FDA approval can also be predicted with machine learning. One of the fields that is really seeing a big focus on drug discovery with machine learning is oncology research, since ML assisted development can rapidly accelerate the discovery of therapeutics to help those that aren’t benefiting from existing treatments.</p>
+
+<p>Here are a few interesting resources related to drug discovery:</p>
+
+<ul>
+  <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10014302/">Machine learning approaches to predict drug efficacy and toxicity in oncology</a></li>
+  <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7577280/pdf/main.pdf">Artificial intelligence in drug discovery and development</a></li>
+  <li><a href="https://www.mdanderson.org/newsroom/md-anderson-generate-biomedicines-co-develop-protein-therapies-cancer-using-generative-ai.h00-159617856.html">MD Anderson and Generate:Biomedicines enter co-development and commercialization agreement to accelerate novel protein therapeutics for oncology using generative AI</a></li>
+  <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10302550/pdf/main.pdf">AI in drug discovery and its clinical relevance</a></li>
+  <li><a href="https://bmcmedinformdecismak.biomedcentral.com/articles/10.1186/s12911-020-1052-0">A deep learning-based method for drug-target interaction prediction based on long short-term memory neural network</a></li>
+</ul>
+
+<h4 id="retrosynthesis">Retrosynthesis</h4>
+
+<p><img src="../assets/images/molecule-dark.jpeg" alt="" /></p>
+
+<p>In organic chemistry, retrosynthesis is the process of breaking down an organic molecule into its smaller precursor compounds (usually a compound that is simple or commercially available), then working backward from those precursors to synthesize the original target molecule. The goal is not only to find a viable synthetic pathway, but also to find an efficient one, since more than one synthetic route will be possible. <sub>[4]</sub> Machine learning can augment this research process by predicting reaction pathways<sub>[19] [21]</sub>, recommending reaction conditions<sub>[20]</sub>, and predicting likelihood of success for a particular reaction.</p>
+
+<ul>
+  <li><a href="https://www.microsoft.com/en-us/research/blog/incorporating-chemists-insight-with-ai-models-for-single-step-retrosynthesis-prediction/">Microsoft Research Blog: Incorporating chemists’ insight with AI models for single-step retrosynthesis prediction</a></li>
+  <li><a href="https://academic.oup.com/bib/article/23/1/bbab391/6375056">Deep learning in retrosynthesis planning: datasets, models and tools</a></li>
+  <li><a href="https://arxiv.org/abs/2301.05864">Recent advances in artificial intelligence for retrosynthesis</a></li>
+</ul>
+
+<h4 id="atomic-simulations">Atomic Simulations</h4>
+
+<p><img src="../assets/images/atom-sim.png" alt="" /></p>
+
+<p>In computational chemistry, systems of atoms or molecules can be simulated to study the behavior of these molecules under certain conditions, which is very useful for predicting material properties. One category of atomic simulations is molecular dynamics, where the physical motion of molecules are modeled using Newtonian mechanics and force fields. Another type of atomic simulation is one that uses the electronic structure and behavior of atoms using quantum mechanics.</p>
+
+<p>In many cases (especially with quantum chemistry simulations), calculations used for simulating molecular systems are very expensive to compute, sometimes taking weeks to complete. This high computational cost will limit the size of the system being modeled (number of molecules), or the duration of the simulation. Researchers are using machine learning to increase the calculation speed, allowing for larger system simulations.<sub>[23]</sub> In the context of systems with quantum mechanics calculations, machine learning can be used to predict potential energy surfaces rather than having to solve the Schrödinger equation, allowing faster calculations for large systems. <sub>[24]</sub></p>
+
+<ul>
+  <li><a href="https://youtube.com/shorts/AMhdgg26Bg0?si=FfRTr20ZnLQRY2Vb">44 Million Atoms Simulated Using AI</a></li>
+  <li><a href="https://www.nature.com/articles/s41524-022-00959-5">Machine-learning atomic simulation for heterogeneous catalysis</a></li>
+  <li><a href="https://www.synopsys.com/glossary/what-are-atomistic-simulations.html">What are Atomistic Simulations?</a></li>
+</ul>
+
+<h4 id="catalysis">Catalysis</h4>
+
+<p><img src="../assets/images/catalysis.png" alt="" /></p>
+
+<p>Catalysis is the process where a substance, known as a catalyst, increases the rate of a chemical reaction without being consumed or chemically changed at the end of the reaction. There are several different classifications of catalysis, each with unique characteristics and applications:</p>
+
+<ul>
+  <li>
+    <p>Homogeneous Catalysis: catalyst and the reactants are in the same phase of matter, usually gas or liquid</p>
+  </li>
+  <li>
+    <p>Heterogeneous Catalysis: the catalyst is in a different phase from the reactants. Typical examples involve a solid catalyst with the reactants as either liquids or gases <sub>[27]</sub></p>
+  </li>
+  <li>
+    <p>Autocatalysis: this is a type of catalysis where one of the products of the reaction acts as a catalyst for the reaction <sub>[29]</sub></p>
+  </li>
+  <li>
+    <p>Enzyme Catalysis: this involves enzymes, which are biological catalysts, that speed up biochemical reactions <sub>[28]</sub></p>
+  </li>
+  <li>
+    <p>Photocatalysis: light is used to speed up a reaction <sub>[30]</sub></p>
+  </li>
+  <li>
+    <p>Environmental Catalysis and Green Catalytic Processes: these are types of catalysis aimed at reducing environmental impact and promoting sustainability <sub>[26]</sub></p>
+  </li>
+</ul>
+
+<p>Machine learning provides a promising avenue for advancing catalysis research by enabling  reaction mechanism prediction<sub>[25]</sub>, network exploration, synthetic condition optimization, and catalyst design, while also fostering interpretability and integration with experimental data.</p>
+
+<ul>
+  <li><a href="https://www.nature.com/collections/gfbfaeaibd">Nature - Machine learning in catalysis</a></li>
+  <li><a href="https://pubs.acs.org/doi/pdf/10.1021/acscatal.3c03417">Accelerating Biocatalysis Discovery with Machine Learning</a></li>
+  <li><a href="https://www.nature.com/articles/s41929-023-00933-4">Rates Against the Machine</a></li>
+</ul>
+
+<h4 id="other-applications">Other Applications</h4>
+
+<p>Obviously chemistry is a huge field, but the broad applicability of ML is making it so it finds its way into all branches of chemistry research. A few other interesting applications include:</p>
+
+<ul>
+  <li>
+    <p>Predictive toxicology - large datasets from sources like high-throughput assays<sub>[31]</sub> and omics<sub>[32]</sub> approaches to predict the toxicity of chemicals</p>
+  </li>
+  <li>
+    <p>Spectroscopy and analytical chemistry - machine learning can be used to automate the identification of compounds in complex spectral data<sub>[33] [34]</sub></p>
+  </li>
+  <li>
+    <p>Materials Science - ML techniques have been used to accelerate and improve the accuracy of predictions of phase diagrams, crystal structures, and other material properties <sub>[35]</sub></p>
+    <ul>
+      <li><a href="https://towardsdatascience.com/machine-learning-in-materials-science-8c6c0db5ce7a">An article I wrote on ML in Materials Science</a></li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="ml-algorithms-and-use-cases-in-chemistry">ML Algorithms and Use-Cases in Chemistry</h2>
+
+<p>Now that we’ve looked through the “chemistry lens” and seen how research in the field can be advanced by leveraging machine learning, let’s shift perspective, and look through the “machine learning lens” by focusing on how different ML algorithms are being used in chemistry research.</p>
+
+<h4 id="decision-trees">Decision Trees</h4>
+
+<p><img src="../assets/images/tree.jpeg" alt="" /></p>
+
+<p>Decision Trees are popular with researchers in the natural sciences like chemistry due to the interpretability of the model predictions, allowing for transferability to other problems in the field. On top of that, decision trees work well with smaller datasets. This often makes this algorithm a natural fit, since a common obstacle for machine learning in chemistry research is the lack of availability of high-quality data.<sub>[2]</sub> Finally, fewer hyperparameters to tune and lower computational costs never hurt. A few drawbacks with decision trees are that they don’t always play nice with noisy data or large datasets, and the limitation of decision nodes to binary outcomes can leave some wanting a little more flexibility.</p>
+<ul>
+  <li><a href="">https://scikit-learn.org/stable/modules/tree.html</a></li>
+  <li><a href="">https://www.coursera.org/articles/decision-tree-machine-learning</a></li>
+  <li><a href="">https://www.ibm.com/topics/decision-trees</a></li>
+</ul>
+
+<h4 id="convolutional-neural-networks">Convolutional Neural Networks</h4>
+
+<p><img src="../assets/images/cnnet.jpeg" alt="" /></p>
+
+<p>Convolutional neural networks are best suited for working with visual data and tasks like image classification, recognition, and segmentation. The real power of CNNs is their effectiveness in tasks where spatial arrangement of features and local patterns are important for accurate analysis. In chemistry, these strengths can be utilized for tasks like gas leak detection, prediction of molecular properties<sub>[7]</sub> with SMILES,<sub>[8]</sub> prediction of materials properties, and protein structure prediction as with AlphaFold1. <sub>[10]</sub></p>
+
+<ul>
+  <li><a href="https://medium.com/towards-data-science/intro-to-pytorch-2-convolutional-neural-networks-487d8a35139a">An Intro to PyTorch I wrote with a short section on CNNs</a></li>
+  <li><a href="">https://cs231n.github.io/convolutional-networks/</a></li>
+  <li><a href="https://openlearninglibrary.mit.edu/courses/course-v1:MITx+6.036+1T2019/courseware/Week8/convolutional_neural_networks/?activate_block_id=block-v1%3AMITx%2B6.036%2B1T2019%2Btype%40sequential%2Bblock%40convolutional_neural_networks">MIT Open Library CNN notes</a></li>
+  <li><a href="https://openlearninglibrary.mit.edu/courses/course-v1:MITx+6.036+1T2019/courseware/Week8/convolutional_neural_networks/?activate_block_id=block-v1%3AMITx%2B6.036%2B1T2019%2Btype%40sequential%2Bblock%40convolutional_neural_networks">MIT Introduction to Deep Learning 2022 lecture on CNNs</a></li>
+</ul>
+
+<h4 id="recurrent-neural-networks">Recurrent Neural Networks</h4>
+
+<p><img src="../assets/images/rnnet.jpeg" alt="" /></p>
+
+<p>Recurrent Neural Networks (RNNs) are designed for processing sequential data, making them well-suited for tasks where temporal dependencies and the order of input elements matter. RNNs excel in natural language processing, time series analysis, and speech recognition, as they can capture and leverage information from previous steps in the sequence.</p>
+
+<p>One of the cool ways RNNs are used in chemistry research are generating de novo molecular designs with SMILES string representations of chemical structures.<sub>[11]</sub> SMILES characters are the tokens for the model, and the sequence is generated one token at a time, given the previous section of the string. RNNs have also been used in Quantitative Structure-Activity Relationship (QSAR)<sub>[13]</sub> modeling in organic material discovery<sub>[9]</sub>, where the activity of a molecule is predicted using chemical/physical properties and molecular descriptors as the features. Another interesting use of RNN’s is the discovery of novel chemical reactions with generative RNNs, specifically a sequence-to-sequence autoencoder with bidirectional LSTM layers.<sub>[12]</sub></p>
+
+<ul>
+  <li><a href="https://stanford.edu/~shervine/teaching/cs-230/cheatsheet-recurrent-neural-networks">Stanford RNN Cheat Sheet</a></li>
+  <li><a href="https://aws.amazon.com/what-is/recurrent-neural-network/">AWS: What is an RNN?</a></li>
+  <li><a href="https://pytorch.org/docs/stable/generated/torch.nn.RNN.html">PyTorch RNN Docs</a></li>
+</ul>
+
+<h4 id="graph-neural-networks">Graph Neural Networks</h4>
+
+<p><img src="../assets/images/graph.jpeg" alt="" /></p>
+
+<p>Graph Neural Networks are based on the mathematical structure of graphs, consisting of nodes and edges that represent a relationship between two nodes. GNNs are trained on <em>data that is represented as graphs</em>, and typically (although not always) work via message passing between nodes. <sub>[14]</sub> Typical applications for graphs and GNNs include social networks, recommendation systems, and network traffic. In chemistry, GNNs are excellent for modeling molecules since they can naturally be represented by graphs. GNNs have been used to predict molecular and crystal properties, as well as modeling potential-energy surfaces for discovery of new materials with desired properties. <sub>[15]</sub></p>
+
+<ul>
+  <li><a href="https://blogs.nvidia.com/blog/what-are-graph-neural-networks/">NVIDIA: What are Graph Neural Networks?</a></li>
+  <li><a href="https://pytorch-geometric.readthedocs.io/en/latest/">PyTorch Geometric</a></li>
+  <li><a href="https://lightning.ai/docs/pytorch/stable/notebooks/course_UvA-DL/06-graph-neural-networks.html">PyTorch Lightning GNN Tutorial</a></li>
+</ul>
+
+<h4 id="transformers">Transformers</h4>
+
+<p><img src="../assets/images/transformer.jpeg" alt="" /></p>
+
+<p>Transformers are neural networks that learn context via a mathematical technique called <strong>attention</strong> to learn relationships in sequential data such as text. Transformers are considered <em>foundation models</em>, meaning they can be trained on broad data, and later fine-tuned to more specific downstream tasks. <sub>[16]</sub> Popular transformer models include GPT, BERT, and T5. AlphaFold2, developed by Google DeepMind is probably the most notable application of transformer models in the chemistry space, predicting the 3-dimensional conformation of proteins, which previously had proven to be a very difficult challenge for researchers. <sub>[17]</sub> Like many other types of models, transformers are also used in drug discovery, retrosynthetic planning, and exploration of chemical space. <sub>[18]</sub></p>
+
+<ul>
+  <li><a href="https://blogs.nvidia.com/blog/what-is-a-transformer-model/">NVIDIA: What is a Transformer Model?</a></li>
+  <li><a href="https://pytorch.org/docs/stable/generated/torch.nn.Transformer.html">PyTorch Transformer Documentation</a></li>
+  <li><a href="https://arxiv.org/abs/1706.03762">Attention is All You Need</a></li>
+</ul>
+
+<hr />
+
+<h2 id="important-considerations-and-challenges-in-the-field">Important Considerations and Challenges in the Field</h2>
+
+<p>Although applying machine learning to chemistry research holds a ton of promise, there are still some hurdles to overcome in the field.  High quality, and sufficiently large datasets are lacking in the chemistry field, and it’s quite common for data to be scattered across multiple databases, stemming from multiple sources. Stitching data together from multiple sources also brings the issue of lack of standardization for data formats, representation, and evaluation metrics.</p>
+
+<p>Additionally, with expertise in the domain of chemistry, researchers may sometimes be unfamiliar with state-of-the-art machine learning methods, computer science techniques, and best practices. This can make it difficult to effectively identify and engineer important features that can best represent complex chemical systems that may not be straightforward for traditional ML algorithms. Finally, since chemical systems can be so complex and tricky to represent, different types of neural network models are commonly used since they can capture complex data relationships. This, however, comes with the caveat that they lack interpretability that something like a decision tree would provide. Furthermore, chemistry datasets typically exhibit a bias towards successful experiments<sub>[36]</sub>. Including data from failed experiments as well as successful ones will allow for a more comprehensive understanding and analysis of the chemical space.</p>
+
+<p>The good news is that recent breakthroughs in LLMs are sparking a ton of interest in machine learning, and this is attracting interest from people with all sorts of backgrounds.  Hopefully with this surge of interest, many will feel encouraged to develop their programming, data, and machine learning skills.  The development of new ML algorithms, data collection strategies, and collaboration between chemists and data scientists will be key to overcoming these challenges and realizing the full potential of ML in chemistry.</p>
+
+<p>I hope you enjoyed reading! If you enjoyed or found this content helpful, consider subscribing or following to receive updates on future posts. Feel free to make suggestions for content you’d like to read in the future in the comments or by email! Thanks for reading!</p>
+
+<hr />
+
+<h2 id="references">References</h2>
+<p>[1] Duan, Chenru, Du, Yuanqi, Jia, Haojun and Kulik, Heather J. 2023. <em>Accurate transition state generation with an object-aware equivariant elementary reaction diffusion model.</em> Nature Computational Science. https://dspace.mit.edu/handle/1721.1/153174</p>
+
+<p>[2] Yun-Fei Shi, Zheng-Xin Yang, Sicong Ma, Pei-Lin Kang, Cheng Shang, P. Hu, Zhi-Pan Liu.
+<em>Machine Learning for Chemistry: Basics and Applications</em>,
+Engineering, 2023, ISSN 2095-8099, https://doi.org/10.1016/j.eng.2023.04.013.</p>
+
+<p>[3] Shi, Zoe. <em>An Introduction to the Chemical Reaction Network Theory</em>.  https://sites.math.washington.edu/~morrow/336_20/papers20/zoey.pdf</p>
+
+<p>[4] https://en.wikipedia.org/wiki/Retrosynthetic_analysis</p>
+
+<p>[5] Victor Garcia Satorras, Emiel Hoogeboom, Max Welling.<em>E(n) Equivariant Graph Neural Networks</em>. https://arxiv.org/pdf/2102.09844.pdf</p>
+
+<p>[6] <a href="https://github.com/chenruduan/OAReactDiff/blob/398ebe052b60e337a04b0a9832549fe5de31c21a/OA-ReactDiff.ipynb">OA-ReactDiff Github Repo</a></p>
+
+<p>[7] Ståhl N, Falkman G, Karlsson A, Mathiason G, Boström J. <em>Deep Convolutional Neural Networks for the Prediction of Molecular Properties: Challenges and Opportunities Connected to the Data</em>. J Integr Bioinform. 2018 Dec 5;16(1):20180065. doi: 10.1515/jib-2018-0065. PMID: 30517077; PMCID: PMC6798861.</p>
+
+<p>[8] J. Chem. Inf. Comput. Sci. 1988, 28, 1, 31–36 Publication Date:February 1, 1988. https://doi.org/10.1021/ci00057a005</p>
+
+<p>[9] Li Y, Xu Y, Yu Y. <em>CRNNTL: Convolutional Recurrent Neural Network and Transfer Learning for QSAR Modeling in Organic Drug and Material Discovery</em>. Molecules. 2021; 26(23):7257. https://doi.org/10.3390/molecules26237257</p>
+
+<p>[10] Senior, A.W., Evans, R., Jumper, J. et al. <em>Improved protein structure prediction using potentials from deep learning</em>. Nature 577, 706–710 (2020). https://doi.org/10.1038/s41586-019-1923-7</p>
+
+<p>[11] J. Chem. Inf. Model.2020, 60, 1175−1183. https://pubs.acs.org/doi/10.1021/acs.jcim.9b00943</p>
+
+<p>[12] Bort W, Baskin II, Gimadiev T, Mukanov A, Nugmanov R, Sidorov P, et al. Discovery of novel chemical reactions by deep generative recurrent neural network. Sci Rep 2021;11(1)</p>
+
+<p>[13] https://en.wikipedia.org/wiki/Quantitative_structure%E2%80%93activity_relationship</p>
+
+<p>[14] https://arxiv.org/ftp/arxiv/papers/1812/1812.08434.pdf</p>
+
+<p>[15] https://arxiv.org/pdf/1712.06113.pdf</p>
+
+<p>[16] https://arxiv.org/pdf/2108.07258.pdf</p>
+
+<p>[17] Jumper, J., Evans, R., Pritzel, A. et al. Highly accurate protein structure prediction with AlphaFold. Nature 596, 583–589 (2021). https://doi.org/10.1038/s41586-021-03819-2</p>
+
+<p>[18] https://arxiv.org/pdf/2310.06083.pdf</p>
+
+<p>[19] Ucak, U.V., Ashyrmamatov, I., Ko, J. et al. Retrosynthetic reaction pathway prediction through neural machine translation of atomic environments. Nat Commun 13, 1186 (2022). https://doi.org/10.1038/s41467-022-28857-w</p>
+
+<p>[20] ACS Cent. Sci. 2018, 4, 11, 1465–1476 Publication Date:November 16, 2018. https://doi.org/10.1021/acscentsci.8b00357</p>
+
+<p>[21] S. Zheng, J. Rao, Z. Zhang, J. Xu, Y. Yang, Predicting retrosynthetic reactions using self-corrected transformer neural networks, J. Chem. Inf. Model. 60 (2020) 47–55, https://doi.org/10.1021/acs.jcim.9b00949</p>
+
+<p>[22] https://doi.org/10.1016/j.aichem.2024.100049</p>
+
+<p>[23] https://www.youtube.com/watch?v=ibELoCSf3cE&amp;t=142s</p>
+
+<p>[24] https://pubs.acs.org/doi/10.1021/acs.accounts.0c00472</p>
+
+<p>[25] https://www.nature.com/articles/d41586-023-00145-7</p>
+
+<p>[26] https://pubs.acs.org/doi/pdf/10.1021/acs.est.3c00293</p>
+
+<p>[27] https://deepblue.lib.umich.edu/bitstream/handle/2027.42/144583/aic16198_am.pdf?sequence=2</p>
+
+<p>[28] https://pubs.acs.org/doi/epdf/10.1021/acscatal.9b04321</p>
+
+<p>[29] https://link.springer.com/article/10.1557/s43579-021-00061-9</p>
+
+<p>[30] https://www.sciencedirect.com/science/article/abs/pii/S0304389422018258</p>
+
+<p>[31] https://en.wikipedia.org/wiki/High-throughput_screening</p>
+
+<p>[32] https://en.wikipedia.org/wiki/Omics</p>
+
+<p>[33] https://pubs.rsc.org/en/content/articlehtml/2022/dd/d1dd00027f</p>
+
+<p>[34] https://link.springer.com/chapter/10.1007/978-3-030-87013-3_5</p>
+
+<p>[35] https://tsapps.nist.gov/publication/get_pdf.cfm?pub_id=915933</p>
+
+<p>[36] https://phys.org/news/2023-09-machine-chemistry-basics-applications.pdf</p>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+                <section class="subscribe-form">
+                    <h3 class="subscribe-form-title">Subscribe to Exploring AI</h3>
+                    <p>Get the latest posts delivered right to your inbox</p>
+                    <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+                </section>
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="tony" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/tony">Tony Flores</a></h4>
+                                
+                                    <p>Software Developer. M.S. in Computer Science. B.S. in Biology. AI/ML enthusiast.</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/tony">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+                <section class="post-full-comments">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        var disqus_config = function () {
+                            var this_page_url = '/chemistry-ml';
+                            var this_page_identifier = '/chemistry-ml';
+                            var this_page_title = 'Machine Learning in Chemistry';
+                        };
+                        (function() {
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://exploring-ai.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                </section>
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/thelogo.PNG)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; Exploring AI &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/applications/">Applications</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/polymer-ml">Machine Learning in Materials Science</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/applications/">
+                                
+                                    See all 1 posts  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/21-pytorch-cnn">
+                <div class="post-card-image" style="background-image: url(/assets/images/pytorch2.png)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/21-pytorch-cnn">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Tutorial</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Series</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Deep learning</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Intro to PyTorch 2: Convolutional Neural Networks</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>Intro
+In the previous iteration of this series, we worked with the CIFAR-10 dataset and introduced the basics of PyTorch:
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="Tony Flores" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/tony/">Tony Flores</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      27 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="/">
+            
+            <span>Exploring AI</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Machine Learning in Chemistry</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Machine+Learning+in+Chemistry&amp;url=https://exploring-ai.com/chemistry-ml"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://exploring-ai.com/chemistry-ml"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="/">Exploring AI</a> &copy; 2024</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyllt/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    <a href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener">Twitter</a>
+                    <!-- <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a> -->
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+        <div id="subscribe" class="subscribe-overlay">
+            <a class="subscribe-overlay-close" href="#"></a>
+            <div class="subscribe-overlay-content">
+                
+                <h1 class="subscribe-overlay-title">Subscribe to Exploring AI</h1>
+                <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+                <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+            </div>
+        </div>
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-34GQSQ4DKR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-34GQSQ4DKR');
+</script>
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

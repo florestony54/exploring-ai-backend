@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title> - Articles</title>
+    <description>Come explore the wonders of AI</description>
+    <link>
+    </link>
+    
+      
+      <item>
+        <title>Machine Learning in Chemistry</title>
+        
+          <description>&lt;h1 id=&quot;machine-learning-in-chemistry&quot;&gt;Machine Learning in Chemistry&lt;/h1&gt;
+
+</description>
+        
+        <pubDate>Fri, 09 Feb 2024 08:00:00 +0000</pubDate>
+        <link>
+        /chemistry-ml</link>
+        <guid isPermaLink="true">/chemistry-ml</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Intro to PyTorch 2: Convolutional Neural Networks</title>
+        
+          <description>&lt;h1 id=&quot;intro&quot;&gt;Intro&lt;/h1&gt;
+&lt;p&gt;In the previous iteration of this series, we worked with the CIFAR-10 dataset and introduced the basics of PyTorch:&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Thu, 06 Oct 2022 08:00:00 +0000</pubDate>
+        <link>
+        /21-pytorch-cnn</link>
+        <guid isPermaLink="true">/21-pytorch-cnn</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Machine Learning in Materials Science</title>
+        
+          <description>&lt;h1 id=&quot;machine-learning-in-materials-science&quot;&gt;Machine Learning in Materials Science&lt;/h1&gt;
+
+</description>
+        
+        <pubDate>Wed, 22 Jun 2022 08:00:00 +0000</pubDate>
+        <link>
+        /polymer-ml</link>
+        <guid isPermaLink="true">/polymer-ml</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Intro to PyTorch: Part 1</title>
+        
+          <description>&lt;h1 id=&quot;intro-to-the-intro&quot;&gt;Intro to the Intro&lt;/h1&gt;
+
+</description>
+        
+        <pubDate>Sun, 06 Mar 2022 08:00:00 +0000</pubDate>
+        <link>
+        /pytorch-intro</link>
+        <guid isPermaLink="true">/pytorch-intro</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Intermediate Python: NumPy</title>
+        
+          <description>&lt;h1 id=&quot;numerical-python-with-numpy&quot;&gt;Numerical Python with NumPy&lt;/h1&gt;
+
+</description>
+        
+        <pubDate>Mon, 21 Feb 2022 08:00:00 +0000</pubDate>
+        <link>
+        /numpy</link>
+        <guid isPermaLink="true">/numpy</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Median Filtering with Python and OpenCV</title>
+        
+          <description>&lt;h1 id=&quot;median-filtering&quot;&gt;Median Filtering&lt;/h1&gt;
+
+</description>
+        
+        <pubDate>Mon, 21 Feb 2022 08:00:00 +0000</pubDate>
+        <link>
+        /median</link>
+        <guid isPermaLink="true">/median</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Edge Detection with Python</title>
+        
+          <description>&lt;p&gt;In computer vision, the detection of edges is utilized to differentiate one object from another (or the background), capture changes in physical properties, and capture important features. Check out my discussion of the basics of edge detection!&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Mon, 21 Feb 2022 08:00:00 +0000</pubDate>
+        <link>
+        /edge-detect</link>
+        <guid isPermaLink="true">/edge-detect</guid>
+      </item>
+      
+    
+      
+      <item>
+        <title>Welcome to the Exploring AI Blog</title>
+        
+          <description>&lt;h3 id=&quot;welcome-friends&quot;&gt;Welcome, friends!&lt;/h3&gt;
+&lt;p&gt;I’m Tony, the creator of this site.&lt;/p&gt;
+
+</description>
+        
+        <pubDate>Fri, 18 Feb 2022 08:00:00 +0000</pubDate>
+        <link>
+        /welcome</link>
+        <guid isPermaLink="true">/welcome</guid>
+      </item>
+      
+    
+  </channel>
+</rss>

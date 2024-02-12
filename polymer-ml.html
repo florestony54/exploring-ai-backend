@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Machine Learning in Materials Science</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="Come explore the wonders of AI" />
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="/polymer-ml" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="Exploring AI" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Machine Learning in Materials Science" />
+    <meta property="og:description" content="Machine Learning in Materials Science As the fields of artificial intelligence and machine learning are exploding, their universal nature is becoming more apparent. Machine learning is being leveraged in a huge variety of sub-fields, and Materials Science and Polymer Science are no exceptions. This article will serve as the first" />
+    <meta property="og:url" content="/polymer-ml" />
+    <meta property="og:image" content="/assets/images/rings.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2022-06-22T08:00:00+00:00" />
+    <meta property="article:modified_time" content="2022-06-22T08:00:00+00:00" />
+    <meta property="article:tag" content="Applications" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Machine Learning in Materials Science" />
+    <meta name="twitter:description" content="Machine Learning in Materials Science As the fields of artificial intelligence and machine learning are exploding, their universal nature is becoming more apparent. Machine learning is being leveraged in a huge variety of sub-fields, and Materials Science and Polymer Science are no exceptions. This article will serve as the first" />
+    <meta name="twitter:url" content="/" />
+    <meta name="twitter:image" content="/assets/images/rings.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Exploring AI" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Applications" />
+    <meta name="twitter:site" content="@exploringaiblog" />
+    <meta name="twitter:creator" content="@exploringaiblog" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Exploring AI",
+        "logo": "/"
+    },
+    "url": "/polymer-ml",
+    "image": {
+        "@type": "ImageObject",
+        "url": "/assets/images/rings.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "/polymer-ml"
+    },
+    "description": "Machine Learning in Materials Science As the fields of artificial intelligence and machine learning are exploding, their universal nature is becoming more apparent. Machine learning is being leveraged in a huge variety of sub-fields, and Materials Science and Polymer Science are no exceptions. This article will serve as the first"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="Machine Learning in Materials Science" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="/">Exploring AI</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">About</a></li>
+    <!-- <li class="nav-getting-started" role="menuitem"><a href="/tag/getting-started/">Getting Started</a></li> -->
+    <!-- <li class="nav-try-ghost" role="menuitem"><a href="https://ghost.org">Try Ghost</a></li> -->
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+        </div>
+        
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-applications tag-literature-review tag-series tag-machine-learning post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime="22 June 2022">22 June 2022</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/applications/'>APPLICATIONS</a>,
+                            
+                        
+                            
+                               <a href='/tag/literature-review/'>LITERATURE REVIEW</a>,
+                            
+                        
+                            
+                               <a href='/tag/series/'>SERIES</a>,
+                            
+                        
+                            
+                               <a href='/tag/machine-learning/'>MACHINE LEARNING</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">Machine Learning in Materials Science</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/rings.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <h1 id="machine-learning-in-materials-science">Machine Learning in Materials Science</h1>
+
+<p>As the fields of artificial intelligence and machine learning are exploding, their <em>universal</em> nature is becoming more apparent. Machine learning is being leveraged in a huge variety of sub-fields, and Materials Science and Polymer Science are no exceptions. This article will serve as the first iteration of a series where I’ll briefly discuss research papers related to Machine Learning and Materials Science, in which the goal is simply to explore the different ways that machine learning is being utilized in the field.</p>
+
+<p>In this iteration, we will focus on polymers. Since Polymer Science is a pretty niche field, I assume you are already familiar with the basics if you are reading this. However, if you are like me, and are just curious by nature, we will preface the paper review with some basics. I must give a disclaimer on my background: although I have worked in a lab where I routinely performed polymer characterization testing, I am in no way an expert– just familiar with the space and some of the lab techniques used. Please keep this in mind as I <strong>attempt</strong> to touch on the science side of things. :)</p>
+
+<hr />
+
+<h3 id="basics-of-polymers">Basics of Polymers</h3>
+
+<p>Before getting into what polymers are on a molecular level, let’s see some familiar materials that are good examples. Some examples of polymers include: plastic, nylon, rubber, wood, protein, and DNA. In this case, we will focus primarily on synthetic polymers like plastic and nylon.</p>
+
+<p><img src="/assets/images/polyex.png" alt="" /></p>
+
+<p>At the molecular level, polymers are composed of long chains of repeating molecules. The molecule that repeats in this chain is known as a monomer (or subunit). Monomers are like the links in a chain. The image below illustrates multiple monomers being chained together to create a polymer, where the repeating sequence (denoted in brackets) can repeat n- times. 
+<img src="/assets/images/polyethylene.png" alt="" /></p>
+
+<p>There is a <strong>huge</strong> amount of potential molecules that can be used as monomers: the paper we will look at mentions that around 10<sup>8</sup> compounds are known, while it is believed that up to 10<sup>60</sup> could exist! Let’s check out some classic monomer examples.</p>
+
+<p><img src="/assets/images/monomers.png" alt="" /></p>
+
+<p>Clearly, monomers come in all shapes and sizes! This is important, because the monomer is the basic building block of the material, so a different molecular structure can result in drastically different material properties. Molecular design (design and discovery of new molecules to use as monomers) is a key area of research in polymer science, and we will see some papers that focus on this (in this post, and in future iterations).</p>
+
+<p>Polymer chains don’t always have to consist of just one type of repeating unit. A <strong>homopolymer</strong> is a polymer where the repeating subunit is the same, whereas a <strong>copolymer</strong> will contain two types of subunits. There are even terpolymers (3) and tetrapolymers (4)! When polymers have more than one type of subunit, they don’t necessarily have to alternate, as you can see in the illustration below.</p>
+
+<p><img src="/assets/images/copolymer.png" alt="" /></p>
+
+<p>Different compositions and configurations of subunits can yield different properties. On top of the primary structure (linear sequence of the chain), polymers can also contain branched chains, cross-links, or network structures.</p>
+
+<p><img src="../assets/images/branchedpoly.png" alt="" /></p>
+
+<p><img src="../assets/images/crosspoly.png" alt="" /></p>
+
+<p><img src="../assets/images/netpoly.png" alt="" /></p>
+
+<p>Structural orientation and morphology on a higher order will affect properties as well. Further details are beyond the scope of this post, but the point to take home here is there is a lot of complexity to take into account, and on top of that, there are a seemingly infinite amount of possibilities in structure and composition (all which will change the properties and behavior of the material). With that said, it’s clear that it would be essentially impossible to explore all the possibilities in the lab considering time, cost of materials and labor, etc. This is where computation and machine learning come in!</p>
+
+<p>In polymer informatics, machine learning can be applied to accelerated characterization of polymers, modeling and analysis, prediction of properties, and molecular design. Applying ML to the research workflow can lead to substantial savings in time and money, since most of the trial-and-error process is reduced by computation and prediction, greatly narrowing the search space for the actual work done in the lab. It sounds like an incredible solution to advancing research, but there are key challenges that must be taken into consideration:</p>
+
+<ul>
+  <li>limited data related to polymers</li>
+  <li>normally requires a hybrid approach with expert input</li>
+  <li>lab analysis required for validation</li>
+</ul>
+
+<p>As more work is done in this space, the impact of these challenges should reduce significantly. With that said, the paper chosen for this review focuses on molecular design, and has a really interesting way of overcoming one of these key challenges. Let’s check it out!</p>
+
+<hr />
+
+<h2 id="paper-review-machine-learning-assisted-discovery-of-polymers-with-high-thermal-conductivity-using-a-molecular-design-algorithm">Paper Review: Machine-learning-assisted discovery of polymers with high thermal conductivity using a molecular design algorithm</h2>
+
+<blockquote>
+  <p>Wu, S., Kondo, Y., Kakimoto, Ma. et al. <a href="https://rdcu.be/cNgzd">Machine-learning-assisted discovery of polymers with high thermal conductivity using a molecular design algorithm</a>. npj Comput Mater 5, 66 (2019). https://doi.org/10.1038/s41524-019-0203-2</p>
+</blockquote>
+
+<p>Molecular design with machine learning is extremely promising, and there is a lot of work being done exploring this space. In this paper, the objective was to design new polymer material (focusing on the chemical structure of the repeating subunit) with a high <a href="https://www.sciencedirect.com/topics/materials-science/thermal-conductivity">thermal conductivity</a>, on-par with state-of-the-art <a href="https://en.wikipedia.org/wiki/Thermoplastic">thermoplastics</a>.</p>
+
+<p><img src="../assets/images/thermo.png" alt="" /></p>
+
+<p>What makes this paper interesting is the fact that the molecular structures proposed by the model were synthesized and <em>verified in the lab</em>. To quote the authors:</p>
+
+<blockquote>
+  <p>“In the particular case of polymers, it is unprecedented that designed polymers were synthesized and experimentally confirmed.”</p>
+</blockquote>
+
+<p>Another fascinating aspect of this work is the use of domain knowledge to overcome a dataset with only 28 training instances with thermal conductivity data. The authors used alternate data, and instead targeted <a href="https://www.sciencedirect.com/topics/chemistry/glass-transition-temperature">glass transition temperature</a> and melting point as “proxy properties”, since they know polymers with higher glass transition and melting temperatures tend to also have higher thermal conductivity.</p>
+
+<h3 id="bayesian-molecular-design-using-probabilistic-language-models">Bayesian Molecular Design using Probabilistic Language Models</h3>
+
+<p>Typically, when it comes to molecular design with machine learning, prediction runs in two directions. The “forward” direction is known as the <strong>quantitative structure-property relationship</strong>, or <strong>QSPR</strong>. Essentially in this direction, <em>physical and chemical properties are predicted</em> with a given chemical structure input. The backward direction is known as <strong>inverse-QSPR</strong>, and is exactly what it sounds like: given a set of target physical or chemical properties, a <em>molecular structure is predicted</em>.</p>
+
+<blockquote>
+  <p>Sidenote: Quantitative structure-activity relationship (QSAR) is similar to QSPR, but instead models the relationship between molecular structure and <strong>biological activity</strong>, instead of physical/chemical properties. This type of molecular design is essential for drug discovery.</p>
+</blockquote>
+
+<p>In this paper, the machine learning algorithm known as Bayesian molecular design was used. As stated before, the objective was to design the molecular structure of the monomer unit given a set of target physical properties (iQSPR). The chemical structures are represented using simplified molecular-input line-entry system (SMILES) notation, which essentially compresses the chemical structure into a string:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="../assets/images/SMILES.png" alt="" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><em>Visualization of the SMILES algorithm. Image Source: <a href="https://en.wikipedia.org/wiki/Simplified_molecular-input_line-entry_system">Wikipedia</a></em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The forward model is defined as <code class="language-plaintext highlighter-rouge">p(Y∈U|S)</code>, and the backward model defined as <code class="language-plaintext highlighter-rouge">p(S|Y∈U)</code>:</p>
+<blockquote>
+  <p>the probability of a chemical structure <strong>S</strong> given that it’s physical property <strong>Y</strong> lies in the region <strong>U</strong>, where <strong>Y</strong> is thermal conductivity and <strong>U</strong> is the desired range of values.</p>
+</blockquote>
+
+<h3 id="prior-distribution">Prior Distribution</h3>
+<p>A prior distribution <strong>p(S)</strong> was used to minimize the occurrence of invalid chemical structures predicted by the model. To define <strong>p(S)</strong>, an <a href="https://web.stanford.edu/~jurafsky/slp3/3.pdf">n-gram model</a> of order <code class="language-plaintext highlighter-rouge">n = 10</code> was trained on 14,423 homopolymers in the <a href="https://polymer.nims.go.jp/en/"><strong>PolyInfo</strong></a> database to learn realistic and favorable structural molecular patterns.</p>
+
+<p><img src="../assets/images/distribution.png" alt="" /></p>
+
+<h3 id="forward-prediction-step">Forward Prediction Step</h3>
+<p>1000 neural nets were trained using the forward prediction model, aiming to predict <strong>glass transition temp.</strong> and <strong>melting temp.</strong> with the monomer chemical structure as input. From here, the model that performed the best at predicting the original target of <strong>thermal conductivity</strong> was used, and fine-tuned on the small amount of <em>thermal conductivity</em> data using transfer learning and <a href="https://github.com/apache/incubator-mxnet"><strong>MXNet</strong></a>.</p>
+
+<h3 id="backward-prediction-step-and-validation">Backward Prediction Step and Validation</h3>
+<p>Finally, with the prior distribution and the forward model, the backward model was formed and used to generate 1000 chemical structures using a sequential Monte Carlo method. From these structures, 3 were selected based off of their theoretical synthesizability and ease of processing using an <a href="https://www.researchgate.net/publication/42344111_Estimation_of_Synthetic_Accessibility_Score_of_Drug-Like_Molecules_Based_on_Molecular_Complexity_and_Fragment_Contributions">SA Score</a>.</p>
+
+<p>The 3 selected polymers (referred to as 4, 13, and 19) were synthesized, and their thermophysical properties were tested in the lab. The thermal conductivity absolute prediction errors for 4, 13, and 19 were 0.015, 0.001, and 0.017 W/mK, respectively, indicating a high level of agreement between predicted and experimental values. In the end, the values ranged from <strong>0.18-0.41 W/mK</strong>, which are comparable to state-of-the-art thermoplastics, and aligned with the range the researchers were targeting.</p>
+
+<p>These results are really exciting to see, especially considering that openly available data in this space is still lacking. If the scientific community can contribute and significantly expand available polymer data, I think some really promising research can be done utilizing machine learning. If you are curious about the details of the methods used in this paper, <a href="https://www.nature.com/articles/s41524-019-0203-2.epdf?sharing_token=E-iwfNr-YoElwGuzhmRbBtRgN0jAjWel9jnR3ZoTv0MHuyid8yZr0Vl4erv1AGAsyqMODXQ5YqlX4Z5s71TTgogZgQlqZgpFdZrBqNU0nPODTOhlTzOsLYIIZFpB_jKQCoUgtTuuZM4fYqpUlTCDMvlrzATIFGGMjVg4CtDfgGY%3D">I encourage you to give it a read</a>!</p>
+
+<h1 id="conclusion">Conclusion</h1>
+<p>It’s really fascinating to see machine learning applied to different domains, and I think some really cool and important results can be achieved in the materials science and engineering space, especially digging into optimizing for sustainability and improving environmental friendliness. :) 
+I hope to continue this series for a long time, and welcome any criticism or suggestions for improvement! Thanks for reading!</p>
+
+<h1 id="references">References</h1>
+
+<ul>
+  <li><a href="https://link.springer.com/article/10.1007/s10822-016-0008-z">https://link.springer.com/article/10.1007/s10822-016-0008-z</a></li>
+  <li><a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7050509/">https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7050509/</a></li>
+  <li><a href="https://onlinelibrary.wiley.com/doi/10.1002/inf2.12167">https://onlinelibrary.wiley.com/doi/10.1002/inf2.12167</a></li>
+</ul>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+                <section class="subscribe-form">
+                    <h3 class="subscribe-form-title">Subscribe to Exploring AI</h3>
+                    <p>Get the latest posts delivered right to your inbox</p>
+                    <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+                </section>
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="tony" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/tony">Tony Flores</a></h4>
+                                
+                                    <p>Software Developer. M.S. in Computer Science. B.S. in Biology. AI/ML enthusiast.</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/tony">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+                <section class="post-full-comments">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        var disqus_config = function () {
+                            var this_page_url = '/polymer-ml';
+                            var this_page_identifier = '/polymer-ml';
+                            var this_page_title = 'Machine Learning in Materials Science';
+                        };
+                        (function() {
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://exploring-ai.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                </section>
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/thelogo.PNG)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; Exploring AI &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/applications/">Applications</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/chemistry-ml">Machine Learning in Chemistry</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/applications/">
+                                
+                                    See all 1 posts  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/21-pytorch-cnn">
+                <div class="post-card-image" style="background-image: url(/assets/images/pytorch2.png)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/21-pytorch-cnn">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Tutorial</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Series</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Deep learning</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Intro to PyTorch 2: Convolutional Neural Networks</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>Intro
+In the previous iteration of this series, we worked with the CIFAR-10 dataset and introduced the basics of PyTorch:
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="Tony Flores" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/tony/">Tony Flores</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      26 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/pytorch-intro">
+                <div class="post-card-image" style="background-image: url(/assets/images/torchcolor1.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/pytorch-intro">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Tutorial</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Series</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Deep learning</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Intro to PyTorch: Part 1</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>Intro to the Intro
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="Tony Flores" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/tony/">Tony Flores</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      17 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="/">
+            
+            <span>Exploring AI</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Machine Learning in Materials Science</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Machine+Learning+in+Materials+Science&amp;url=https://exploring-ai.com/polymer-ml"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://exploring-ai.com/polymer-ml"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="/">Exploring AI</a> &copy; 2024</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyllt/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    <a href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener">Twitter</a>
+                    <!-- <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a> -->
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+        <div id="subscribe" class="subscribe-overlay">
+            <a class="subscribe-overlay-close" href="#"></a>
+            <div class="subscribe-overlay-content">
+                
+                <h1 class="subscribe-overlay-title">Subscribe to Exploring AI</h1>
+                <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+                <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+            </div>
+        </div>
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-34GQSQ4DKR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-34GQSQ4DKR');
+</script>
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

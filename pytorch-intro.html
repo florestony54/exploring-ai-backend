@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Intro to PyTorch: Part 1</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="Come explore the wonders of AI" />
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="/pytorch-intro" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="Exploring AI" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Intro to PyTorch: Part 1" />
+    <meta property="og:description" content="Intro to the Intro Based on the Torch library, PyTorch is one of the most popular deep learning frameworks for machine learning practitioners. Some of the things that make PyTorch popular are it’s ease of use, dynamic computational graph, and the fact that it feels more “Pythonic” than other frameworks" />
+    <meta property="og:url" content="/pytorch-intro" />
+    <meta property="og:image" content="/assets/images/torchcolor1.jpg" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2022-03-06T08:00:00+00:00" />
+    <meta property="article:modified_time" content="2022-03-06T08:00:00+00:00" />
+    <meta property="article:tag" content="Tutorial" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Intro to PyTorch: Part 1" />
+    <meta name="twitter:description" content="Intro to the Intro Based on the Torch library, PyTorch is one of the most popular deep learning frameworks for machine learning practitioners. Some of the things that make PyTorch popular are it’s ease of use, dynamic computational graph, and the fact that it feels more “Pythonic” than other frameworks" />
+    <meta name="twitter:url" content="/" />
+    <meta name="twitter:image" content="/assets/images/torchcolor1.jpg" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Exploring AI" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Tutorial" />
+    <meta name="twitter:site" content="@exploringaiblog" />
+    <meta name="twitter:creator" content="@exploringaiblog" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Exploring AI",
+        "logo": "/"
+    },
+    "url": "/pytorch-intro",
+    "image": {
+        "@type": "ImageObject",
+        "url": "/assets/images/torchcolor1.jpg",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "/pytorch-intro"
+    },
+    "description": "Intro to the Intro Based on the Torch library, PyTorch is one of the most popular deep learning frameworks for machine learning practitioners. Some of the things that make PyTorch popular are it’s ease of use, dynamic computational graph, and the fact that it feels more “Pythonic” than other frameworks"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="Intro to PyTorch: Part 1" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="/">Exploring AI</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">About</a></li>
+    <!-- <li class="nav-getting-started" role="menuitem"><a href="/tag/getting-started/">Getting Started</a></li> -->
+    <!-- <li class="nav-try-ghost" role="menuitem"><a href="https://ghost.org">Try Ghost</a></li> -->
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+        </div>
+        
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-tutorial tag-series tag-deep-learning post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime=" 6 March 2022"> 6 March 2022</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/tutorial/'>TUTORIAL</a>,
+                            
+                        
+                            
+                               <a href='/tag/series/'>SERIES</a>,
+                            
+                        
+                            
+                               <a href='/tag/deep-learning/'>DEEP LEARNING</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">Intro to PyTorch: Part 1</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/torchcolor1.jpg)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <h1 id="intro-to-the-intro">Intro to the Intro</h1>
+
+<p>Based on the Torch library, PyTorch is one of the most popular deep learning frameworks for machine learning practitioners. Some of the things that make PyTorch popular are it’s ease of use, dynamic computational graph, and the fact that it feels more “Pythonic” than other frameworks like Tensorflow.</p>
+
+<p>For this tutorial, we will check out the base components of PyTorch, then walk through an image classification task, using the CIFAR10 dataset. Since PyTorch is loaded with tons of features, and there are tons of ways to apply them, this obviously won’t be comprehensive. The purpose of this post is to serve as an introduction to the package and some of the components that you will use, as well as provide some resources so you can continue your journey.</p>
+
+<h1 id="the-tensor">The Tensor</h1>
+
+<p>The central component of PyTorch is the <strong>tensor</strong> data structure. If you’re familiar with NumPy (if you’re not, check out my NumPy article in <a href="https://towardsdatascience.com/intermediate-python-numpy-cec1c192b8e6">Towards Data Science</a>), PyTorch tensors are similar to NumPy ndarrays, with the key difference being that they are CUDA-capable, and built to run on hardware accelerators, like GPUs. Another important feature that tensors possess is that they are optimized for <a href="https://pytorch.org/tutorials/beginner/basics/autogradqs_tutorial.html">automatic differentiation</a>, which is the basis of the neural network training algorithm known as <strong>back propagation</strong>. These two optimizations are crucial for deep learning:</p>
+
+<ul>
+  <li>the vast amounts of data, features, and training iterations that deep learning usually encompasses requires the massively-parallel architecture of GPU’s to train in reasonable amounts of time</li>
+  <li>training through back propagation necessitates efficient and precise differentiation</li>
+</ul>
+
+<blockquote>
+  <p>PyTorch also supports distributed computation, extending the training process beyond the bounds of a single machine!</p>
+</blockquote>
+
+<p>With that said, let’s take a look at the tensor API!</p>
+
+<h2 id="hands-on-with-tensors">Hands-on with tensors</h2>
+
+<blockquote>
+  <p><strong>Note</strong>: If you want to follow along here, skip ahead to the Set-Up section first, so you can code along in Colab</p>
+</blockquote>
+
+<p>We can create tensors naturally from <strong>Python lists</strong>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">A</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+     <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]]</span>
+
+<span class="n">A_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This also works just as naturally with <strong>Numpy ndArrays</strong>:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="n">B_tensor</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Just like in NumPy (and Tensorflow, for that matter), we can initialize tensors with random values, all ones, or all zeroes. Just provide the <code class="language-plaintext highlighter-rouge">shape</code> (and <code class="language-plaintext highlighter-rouge">dtype</code> if you want to specify the data type):</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># with no dtype argument, torch will infer the type
+</span><span class="n">C</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span> 
+<span class="n">C</span>
+
+<span class="c1"># tensor([[0., 0., 0., 0.],
+#        [0., 0., 0., 0.],
+#        [0., 0., 0., 0.],
+#        [0., 0., 0., 0.]])
+</span></code></pre></div></div>
+
+<p>Let’s not forget tensors don’t have to be 2-dimensional!</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">D</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">D</span>
+
+<span class="c1"># tensor([[[1, 1],
+#         [1, 1],
+#         [1, 1]],
+#
+#        [[1, 1],
+#         [1, 1],
+#         [1, 1]],
+#
+#        [[1, 1],
+#         [1, 1],
+#         [1, 1]]], dtype=torch.int32)
+</span>
+
+</code></pre></div></div>
+
+<p>A new tensor can be created from an existing one.  So, if we wanted, we could create a new Tensor of zeros with the same properties (shape and data type) as the <code class="language-plaintext highlighter-rouge">A_tensor</code> we created:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">A_tensor_zeros</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">A_tensor</span><span class="p">)</span>
+<span class="n">A_tensor_zeros</span> 
+
+<span class="c1"># tensor([[0, 0, 0],
+#        [0, 0, 0],
+#        [0, 0, 0]])
+</span>
+</code></pre></div></div>
+
+<p>Or maybe you want random floating point values:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># the dtype argument allows you to explicitly specify the datatype of the tensor
+</span><span class="n">A_tensor_rand</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">rand_like</span><span class="p">(</span><span class="n">A_tensor</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">)</span> 
+<span class="n">A_tensor_rand</span>
+
+<span class="c1"># tensor([[0.2298, 0.9499, 0.5847],
+#        [0.6357, 0.2765, 0.0125],
+#        [0.1215, 0.1747, 0.9935]])
+</span>
+</code></pre></div></div>
+
+<p>Want the attributes of a tensor?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">A_tensor_rand</span><span class="p">.</span><span class="n">dtype</span>
+<span class="c1"># torch.float32
+</span><span class="n">A_tensor_rand</span><span class="p">.</span><span class="n">shape</span>
+<span class="c1"># torch.Size([3, 3])
+</span><span class="n">A_tensor_rand</span><span class="p">.</span><span class="n">device</span>
+<span class="c1"># device(type='cpu')
+</span></code></pre></div></div>
+
+<p>Creating tensors is fine, but the real fun starts when we can start manipulating them and applying mathematical operations. There are a <strong>ton</strong> of neat tensor operations already built-in, so we certainly won’t have time to go through them all. Instead, I’ll give you a <a href="https://pytorch.org/docs/stable/torch.html">link to check them out in further detail</a>, and just name a few:</p>
+
+<ul>
+  <li>matrix multiplication</li>
+  <li>compute eigenvectors and eigenvalues</li>
+  <li>sorting</li>
+  <li>index,slice,join</li>
+  <li>hamming window (not sure what this is, but sounds cool!!)</li>
+</ul>
+
+<h1 id="dataset-and-dataloader-modules">Dataset and Dataloader Modules</h1>
+
+<h3 id="dataset">Dataset</h3>
+
+<p>Like Tensorflow, PyTorch has a number of datasets included in the package (including <a href="https://pytorch.org/text/stable/datasets.html">Text</a>, <a href="https://pytorch.org/vision/stable/datasets.html">Image</a>,  and <a href="https://pytorch.org/audio/stable/datasets.html">Audio</a> datasets). The deep learning part of this tutorial will use one of these built-in image datasets: <code class="language-plaintext highlighter-rouge">CIFAR10</code>. These datasets are very common, and widely documented around the ML community, so they are great for prototyping and benchmarking models, since you can compare the performance of your model to what others were able to achieve with theirs.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">torchvision</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">FashionMNIST</span> <span class="c1"># torchvision for image datasets
+</span><span class="kn">from</span> <span class="nn">torchtext.datasets</span> <span class="kn">import</span> <span class="n">AmazonReviewFull</span> <span class="c1"># torchtext for text
+</span><span class="kn">from</span> <span class="nn">torchaudio.datasets</span> <span class="kn">import</span> <span class="n">SPEECHCOMMANDS</span> <span class="c1">#torchaudio for audio
+</span>
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">FashionMNIST</span><span class="p">(</span>
+    <span class="c1"># the directory you want to store the dataset, can be a string e.g. "data"
+</span>    <span class="n">root</span> <span class="o">=</span> <span class="n">data_directory</span><span class="p">,</span> 
+    <span class="c1"># if set to False, will give you the test set instead
+</span>    <span class="n">train</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> 
+    <span class="c1"># download the dataset if it's not already available in the root path you specified
+</span>    <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> 
+    <span class="c1"># as the name implies, will transform images to tensor data structures so PyTorch can use them for training
+</span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">torchvision</span><span class="p">.</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">()</span> 
+<span class="p">)</span>
+</code></pre></div></div>
+
+<p>With this, if your dataset has labels or classifications, you can quickly view a list of those:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">training_data</span><span class="p">.</span><span class="n">classes</span>
+
+<span class="c1"># ['T-shirt/top',
+# 'Trouser',
+# 'Pullover',
+# 'Dress',
+# 'Coat',
+# 'Sandal',
+# 'Shirt',
+# 'Sneaker',
+# 'Bag',
+# 'Ankle boot']
+</span>
+<span class="n">training_data</span><span class="p">.</span><span class="n">class_to_idx</span> <span class="c1"># get the corresponding index with each class
+</span>
+<span class="c1"># {'Ankle boot': 9,
+# 'Bag': 8,
+# 'Coat': 4,
+# 'Dress': 3,
+# 'Pullover': 2,
+# 'Sandal': 5,
+# 'Shirt': 6,
+# 'Sneaker': 7,
+# 'T-shirt/top': 0,
+# 'Trouser': 1}
+</span></code></pre></div></div>
+
+<p>Now obviously built-in datasets will not be all you need as a machine learning practitioner. Although the process will be more complex than just importing a dataset, creating your own dataset with PyTorch is fairly easy and flexible. This is somewhat beyond the scope of this post, but I’ll post an in-depth guide to creating datasets in the near-future.</p>
+
+<h3 id="dataloader">DataLoader</h3>
+
+<p>Iterating through the dataset will go through each sample 1 by 1, so PyTorch gives us the DataLoader module to easily create minibatches in our datasets. <code class="language-plaintext highlighter-rouge">DataLoader</code> allows us to specify the <code class="language-plaintext highlighter-rouge">batch_size</code> as well as shuffle the data:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>So in your deep learning workflow, you’ll want to feed your data to your model for training through <code class="language-plaintext highlighter-rouge">DataLoader</code> in minibatches.</p>
+
+<p>The deep learning portion of the tutorial will demonstrate working with the <code class="language-plaintext highlighter-rouge">DataLoader</code> and feeding it to a neural network.</p>
+
+<p>One final important feature before we move on to Deep Learning is setting the device. When you want to train on a GPU you can check if a GPU is available for PyTorch to use:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span>
+<span class="c1"># True if GPU available
+</span></code></pre></div></div>
+
+<p>PyTorch defaults to the CPU, so even with a GPU on hand, you still need to specify that you want to use the GPU for training. If you are certain your GPU is available, you can use .to(“cuda”) on your tensors and models. Otherwise, you might consider setting a device variable to whatever device is available:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Device: </span><span class="si">{</span><span class="n">device</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="c1"># 'cuda'
+</span>
+<span class="c1"># you can specify .to("cuda") or .to(device)
+</span><span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="s">"cuda"</span><span class="p">)</span>
+<span class="c1"># attaching your neural network model to your GPU
+</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>If you are using Google Colab, you will have access to a GPU for free (unless you want to subscribe). Speaking of Colab, let’s move on to the setup for our classification task!</p>
+
+<h1 id="set-up">Set-up</h1>
+
+<p>For this tutorial, we will be using Google Colab. Colab has been my go-to for all of my machine learning projects, because there is no easier setup, in my opinion. Obviously, some projects will require a different setup, but for smaller projects and tutorials, you can’t really beat Colab’s free GPU access and environment that already includes packages like PyTorch, NumPy, Scikit-Learn already installed.</p>
+
+<p>So to start, navigate to the <a href="https://colab.research.google.com">Google Colab</a> page, and sign in with your Google account. <code class="language-plaintext highlighter-rouge">File &gt; New notebook</code>. Change the name of your notebook at the top to <code class="language-plaintext highlighter-rouge">pytorchIntro.ipynb</code> , or something else if you’d prefer. Colab doesn’t give you an instance with GPU access by default, so you have to specify you want to use a GPU: at the top, go to <code class="language-plaintext highlighter-rouge">Runtime &gt; Change runtime type &gt; Hardware accelerator &gt; Select "GPU" &gt; Save</code>. Now you have a GPU to train your models!</p>
+
+<blockquote>
+  <p>If you’re curious about the GPU that you’ll be using, type <code class="language-plaintext highlighter-rouge">!nvidia-smi</code> and execute that line by hitting the Play button on the left of the line, or by pressing Shift+Enter. You can also run <code class="language-plaintext highlighter-rouge">!nvidia-smi -L</code> if all you want is the GPU device:</p>
+</blockquote>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GPU 0: Tesla T4 (UUID: GPU-7619bc40-f58c-a507-3911-58907fbd2721)
+</code></pre></div></div>
+
+<p>Now that you have Colab up, and a GPU ready to train your model, let’s get to the code.</p>
+
+<h1 id="imports">Imports</h1>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">torchvision.utils</span> <span class="kn">import</span> <span class="n">make_grid</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">CIFAR10</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">ToTensor</span>
+<span class="kn">from</span> <span class="nn">torchvision.transforms</span> <span class="kn">import</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">Compose</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+</code></pre></div></div>
+<p>Add these imports to your first line, and execute that line. These are the main PyTorch modules we will be using, along with a few support imports. We will go over these in a little more detail when we use them.</p>
+
+<h1 id="dataset-1">Dataset</h1>
+
+<h3 id="cifar-10-dataset"><a href="https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10 dataset</a></h3>
+
+<p>This dataset consists of 60,000 32x32 color images, all labeled as one of 10 classes. The training set is 50,000 images, while the test set is 10,000.</p>
+
+<p>Here is a nice visualization of the dataset from the home source:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="../assets/images/cifar.JPG" alt="" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><em>Source: https://www.cs.toronto.edu/~kriz/cifar.html</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The goal for this project will be to build a model that can accurately classify images as one of the 10 classifications.</p>
+
+<h1 id="loading-the-dataset">Loading the dataset</h1>
+
+<p>So we imported CIFAR10 from torchvision, and now we need to download the actual dataset, and prepare it to be loaded into the neural network.</p>
+
+<p>First, since we should normalize our images before feeding them to the model, we will define a <code class="language-plaintext highlighter-rouge">transform</code> function, and use <code class="language-plaintext highlighter-rouge">torchvision.transforms.Normalize</code> to <a href="https://en.wikipedia.org/wiki/Normalization_(image_processing)">normalize</a> all of our images when we create the training and test data variables. The <code class="language-plaintext highlighter-rouge">Normalize</code> method takes the desired <strong>mean</strong> and <strong>standard deviation</strong> as agruments, and since these are color images, a value should be provided for each (R, G, B) color channel.</p>
+
+<p>We will set the values here to 0.5, since we would like to have the values of our image data to be close to 0, but there are other, more precise approaches to normalization.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform</span> <span class="o">=</span> <span class="n">Compose</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">ToTensor</span><span class="p">(),</span>
+     <span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span>  <span class="c1"># mean
+</span>               <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))]</span> <span class="c1"># std. deviation
+</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now we can use our transform function in the transform argument so that PyTorch will apply this to the entire dataset.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">training_data</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">"cifar"</span><span class="p">,</span>
+                        <span class="n">train</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="c1"># train set, 50k images
+</span>                        <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                        <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span> <span class="o">=</span> <span class="s">"cifar"</span><span class="p">,</span>
+                    <span class="n">train</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="c1"># test set, 10k images
+</span>                    <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                    <span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now that we have our dataset downloaded and normalized, we can prepare it to get fed to the neural network by using the PyTorch DataLoader, where we can define the <code class="language-plaintext highlighter-rouge">batch_size</code>.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">4</span>
+
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> 
+                              <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> 
+                              <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> 
+                             <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> 
+                             <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">DataLoader</code> is an iterable, so let’s take a look at <code class="language-plaintext highlighter-rouge">train_dataloader</code> by checking out the dimensions of one iteration:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">train_dataloader</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Shape of X [N, C, H, W]: </span><span class="si">{</span><span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Shape of y: </span><span class="si">{</span><span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="n">y</span><span class="p">.</span><span class="n">dtype</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+  <span class="k">break</span>
+<span class="c1"># Shape of X [N, C, H, W]: torch.Size([4, 3, 32, 32])
+# Shape of y: torch.Size([4]) torch.int64
+</span></code></pre></div></div>
+<p>Here X is the images, and y is the labels. We set <code class="language-plaintext highlighter-rouge">batch_size = 4</code> so each iteration through our <code class="language-plaintext highlighter-rouge">train_dataloader</code> is a mini-batch of 4 32x32 images and their 4 corresponding labels.</p>
+
+<p>Now let’s take a peak at some examples in our dataset.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+  <span class="n">img</span> <span class="o">=</span> <span class="n">img</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">.</span><span class="mi">05</span> <span class="c1"># revert normalization for viewing
+</span>  <span class="n">npimg</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">numpy</span><span class="p">()</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">npimg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)))</span>
+  <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">classes</span> <span class="o">=</span> <span class="n">training_data</span><span class="p">.</span><span class="n">classes</span>
+<span class="n">training_data</span><span class="p">.</span><span class="n">classes</span>
+<span class="c1">#['airplane',
+# 'automobile',
+# 'bird',
+# 'cat',
+# 'deer',
+# 'dog',
+# 'frog',
+# 'horse',
+# 'ship',
+# 'truck']
+</span></code></pre></div></div>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataiter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">)</span>
+<span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">dataiter</span><span class="p">.</span><span class="nb">next</span><span class="p">()</span>
+
+<span class="n">imshow</span><span class="p">(</span><span class="n">make_grid</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">classes</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">j</span><span class="p">]]:</span><span class="mi">5</span><span class="n">s</span><span class="si">}</span><span class="s">'</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)))</span>
+</code></pre></div></div>
+<p><img src="../assets/images/cifar-preview.jpg" alt="" /></p>
+
+<p>Now we can see a few images and their corresponding labels. Normally you would want to conduct more thorough data exploration and analysis before moving on to model building, but since this is just an introduction to PyTorch we will move on to building and training the model.</p>
+
+<h1 id="defining-the-base-model">Defining the Base Model</h1>
+
+<p>Let’s build a neural network.</p>
+
+<p>First, we will define our model class, and name it <code class="language-plaintext highlighter-rouge">NeuralNetwork</code>. Our model will be a subclass of the PyTorch <a href="https://pytorch.org/docs/stable/generated/torch.nn.Module.html">nn.Module</a>, which is the base class for all neural network modules in PyTorch.</p>
+
+<p>Since we have color images in our dataset, the shape of each image is <code class="language-plaintext highlighter-rouge">(3, 32, 32)</code>, a 32x32 tensor in each of the 3 RGB color channels. Since our initial model will consist of fully-connected layers, we will need to <a href="https://pytorch.org/docs/stable/generated/torch.nn.Flatten.html">nn.Flatten()</a> our input image data. Our flatten method will output a linear layer with 3072 (32 x 32 x 3) nodes. <code class="language-plaintext highlighter-rouge">nn.Linear()</code> takes the number of input neurons and the number of outputs as arguments, respectively (<code class="language-plaintext highlighter-rouge">nn.Linear(1024 in, 512 out)</code>). From here you can add <code class="language-plaintext highlighter-rouge">Linear</code> layers and <code class="language-plaintext highlighter-rouge">ReLU</code> layers to your heart’s content! The output of our model is 10 logits corresponding to the 10 classes in our dataset.</p>
+
+<p>After we define the structure of the model, we will define the sequence of the forward pass. Since our model is a simple sequential model, our <code class="language-plaintext highlighter-rouge">forward</code> method will be really straightforward. The <code class="language-plaintext highlighter-rouge">forward</code> method will compute an output <code class="language-plaintext highlighter-rouge">Tensor</code> from input <code class="language-plaintext highlighter-rouge">Tensors</code>.</p>
+
+<p>If you’d like to, you can simply print <code class="language-plaintext highlighter-rouge">model</code> once it’s defined, so you can get a summary of the structure.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">NeuralNetwork</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NeuralNetwork</span><span class="p">,</span> <span class="bp">self</span><span class="p">).</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">flatten</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Flatten</span><span class="p">()</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">linear_relu_stack</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Sequential</span><span class="p">(</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">32</span><span class="o">*</span><span class="mi">32</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1024</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">ReLU</span><span class="p">(),</span>
+            <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">512</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">logits</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">linear_relu_stack</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">logits</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">NeuralNetwork</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="c1">#NeuralNetwork(
+#  (flatten): Flatten(start_dim=1, end_dim=-1)
+#  (linear_relu_stack): Sequential(
+#    (0): Linear(in_features=3072, out_features=1024, bias=True)
+#    (1): ReLU()
+#    (2): Linear(in_features=1024, out_features=512, bias=True)
+#    (3): ReLU()
+#    (4): Linear(in_features=512, out_features=10, bias=True)
+#  )
+#)
+</span></code></pre></div></div>
+
+<h1 id="loss-function-and-optimizer">Loss function and Optimizer</h1>
+
+<p>Since this is a classification problem, we will use the Cross-Entropy loss function. As a reminder, Cross-Entropy computes the log loss when the model outputs a predicted probability value betweeen 0 and 1. So as the predicted probability diverges from the true value, the loss increases rapidly (predictions that are wrong are penalized more if they are more confident). The graph below illustrates the behavior of the loss function as the predicted value gets closer and further from the true value.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="../assets/images/crossentropy.jpg" alt="" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><em>Fig: the y-axis represents the loss, while the x-axis is the predicted value when the true value is 1.</em></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><em>As you can see, as the predicted value approaches 1, the loss approaches 0.</em></td>
+    </tr>
+    <tr>
+      <td style="text-align: center"><em>The closer the predicted value to 0, the higher the value of the loss.</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>With PyTorch, we can just use <code class="language-plaintext highlighter-rouge">CrossEntropyLoss()</code>.  For other ML tasks, you can use different <a href="https://pytorch.org/docs/stable/nn.html#loss-functions">loss functions</a> if they are more fitting. For our optimization algorithm, we will use stochastic gradient descent, which is implemented in the <a href="https://pytorch.org/docs/stable/optim.html">torch.optim package</a>, along with other optimizers like Adam and RMSprop. We just need to pass the parameters of our model, and the learning rate <code class="language-plaintext highlighter-rouge">lr</code>. If you want to use momentum or weight decay in your model optimization, you can pass that to the <code class="language-plaintext highlighter-rouge">SGD()</code> optimizer as well with the <code class="language-plaintext highlighter-rouge">momentum</code> and <code class="language-plaintext highlighter-rouge">weight_decay</code> parameters (both default to 0).</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">SGD</span><span class="p">(</span> <span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span> <span class="p">)</span> <span class="c1"># momentum=0.9
+</span></code></pre></div></div>
+
+<h1 id="defining-the-training-loop">Defining the Training Loop</h1>
+
+<p>Here we define our <code class="language-plaintext highlighter-rouge">train()</code> function, where we will pass <code class="language-plaintext highlighter-rouge">train_dataloader</code>, <code class="language-plaintext highlighter-rouge">model</code>, <code class="language-plaintext highlighter-rouge">loss_fn</code>, and <code class="language-plaintext highlighter-rouge">optimizer</code> as arguments during the training process. The <code class="language-plaintext highlighter-rouge">size</code> variable is the length of the entire training dataset (50k). On the next line, <code class="language-plaintext highlighter-rouge">model.train()</code> is a PyTorch <code class="language-plaintext highlighter-rouge">nn.Module</code> method that sets the model to training mode, enabling certain behaviors that you would want during training (e.g. dropout, batch norm, etc.). In contrast (and as you’ll see when we define our test function), you’d use <code class="language-plaintext highlighter-rouge">model.eval()</code> if you want to test your models performance. Next, we’ll iterate through each mini-batch, specifying we’d like to utilize the GPU with <code class="language-plaintext highlighter-rouge">to(device)</code>. We feed the mini-batch to our model, compute the loss, then backpropagate.</p>
+
+<h2 id="backpropagation-and-training-progress-output">Backpropagation and Training Progress Output</h2>
+
+<p>For the backprop step, we need to run <code class="language-plaintext highlighter-rouge">optimizer.zero_grad()</code> first. This sets gradient to zero before starting backprop, since we dont want to accumulate the gradient over subsequent passes (this behavior can be desired in some cases, like RNNs where you want gradient accumulation). <code class="language-plaintext highlighter-rouge">loss.backward()</code> uses the loss to compute the gradient, then we use <code class="language-plaintext highlighter-rouge">optimizer.step()</code> to update the weights. Finally, we can print out updates to the training process, outputting the computed loss after every 2000 training samples.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">):</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Compute prediction error
+</span>        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># Backpropagation
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">batch</span> <span class="o">%</span> <span class="mi">2000</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">loss</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">batch</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"loss: </span><span class="si">{</span><span class="n">loss</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">7</span><span class="n">f</span><span class="si">}</span><span class="s">  [</span><span class="si">{</span><span class="n">current</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">5</span><span class="n">d</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">size</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">5</span><span class="n">d</span><span class="si">}</span><span class="s">]"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="defining-the-testing-method">Defining the Testing Method</h1>
+
+<p>Before training the model, let’s implement the test function, so we can evaluate our model after every epoch, and output the accuracy on the test set. The big differences with the test method are that we use <code class="language-plaintext highlighter-rouge">model.eval()</code> to set the model into testing mode, and <code class="language-plaintext highlighter-rouge">torch.no_grad()</code> which will disable gradient calculation, since we don’t use backpropagation during testing. Finally, we calculate the average loss for the test set and the overall accuracy.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">):</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">num_batches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>
+    <span class="n">test_loss</span><span class="p">,</span> <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">test_loss</span> <span class="o">+=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">).</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">test_loss</span> <span class="o">/=</span> <span class="n">num_batches</span>
+    <span class="n">correct</span> <span class="o">/=</span> <span class="n">size</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Test Error: </span><span class="se">\n</span><span class="s"> Accuracy: </span><span class="si">{</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="p">):</span><span class="o">&gt;</span><span class="mf">0.1</span><span class="n">f</span><span class="si">}</span><span class="s">%, Avg loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">8</span><span class="n">f</span><span class="si">}</span><span class="s"> </span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="training-our-model">Training our Model</h1>
+
+<p>Now that we have the dataset loaded and pre-processed, the neural network built out, and the loss function/optimizer/training loop defined… we’re ready to train! Specify the number of <code class="language-plaintext highlighter-rouge">epochs</code> that you want to train the model for. Each epoch will go through a <code class="language-plaintext highlighter-rouge">train</code> loop, which outputs progress every 2000 samples, then it will <code class="language-plaintext highlighter-rouge">test</code> the model on the test set, and output the accuracy and loss on the test set after each epoch.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s">-------------------------------"</span><span class="p">)</span>
+    <span class="n">train</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+    <span class="n">test</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Done!"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="../assets/images/train-prog.jpg" alt="" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><em>This is the what the output should look like for each training epoch</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="saving-and-loading-a-model">Saving and Loading a Model</h1>
+
+<p>After training finishes, if you’d like to save your model to use for inference, use <code class="language-plaintext highlighter-rouge">torch.save()</code>. Pass <code class="language-plaintext highlighter-rouge">model.state_dict()</code> as the first argument; this is just a Python dictionary object which maps layers to their respective learned parameters (weights and biases). For the second argument, name your saved model (it’s common convention to save PyTorch models using <code class="language-plaintext highlighter-rouge">.pth</code> or <code class="language-plaintext highlighter-rouge">.pt</code> extensions). You can also specify a full path for this argument if you prefer to save it in a specific location.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s">"cifar_fc.pth"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>When you want to load your model for inference, use <code class="language-plaintext highlighter-rouge">torch.load()</code> to grab your saved model, and map the learned parameters with <code class="language-plaintext highlighter-rouge">load_state_dict</code>.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">NeuralNetwork</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"cifar_fc.pth"</span><span class="p">))</span>
+</code></pre></div></div>
+
+<h1 id="evaluating-the-model">Evaluating the Model</h1>
+
+<p>You can iterate through the <code class="language-plaintext highlighter-rouge">test_dataloader</code> to check out a sample of images with their labels.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">dataiter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">)</span>
+<span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">dataiter</span><span class="p">.</span><span class="nb">next</span><span class="p">()</span>
+
+<span class="n">imshow</span><span class="p">(</span><span class="n">make_grid</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">'Ground Truth: '</span><span class="p">,</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">classes</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">j</span><span class="p">]]:</span><span class="mi">5</span><span class="n">s</span><span class="si">}</span><span class="s">'</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
+
+</code></pre></div></div>
+
+<p><img src="../assets/images/img-labels.jpg" alt="" /></p>
+
+<p>Then compare it to our model’s predicted labels to get a preview of it’s performance:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="s">'Predicted: '</span><span class="p">,</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">classes</span><span class="p">[</span><span class="n">predicted</span><span class="p">[</span><span class="n">j</span><span class="p">]]:</span><span class="mi">5</span><span class="n">s</span><span class="si">}</span><span class="s">'</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">)))</span>
+<span class="c1"># Predicted:  dog   ship  automobile deer 
+</span></code></pre></div></div>
+
+<p>So we can see, our model seems like it’s learning to classify! Let’s see the numbers for our model’s performance.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span>
+ <span class="n">total</span> <span class="o">=</span> <span class="mi">0</span>
+
+ <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+   <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test_dataloader</span><span class="p">:</span>
+     <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+     <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+     <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">.</span><span class="n">data</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+     <span class="n">total</span> <span class="o">+=</span> <span class="n">labels</span><span class="p">.</span><span class="n">size</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+     <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">predicted</span> <span class="o">==</span> <span class="n">labels</span><span class="p">).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>
+
+<span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Model accuracy: </span><span class="si">{</span><span class="mi">100</span> <span class="o">*</span> <span class="n">correct</span> <span class="o">//</span> <span class="n">total</span><span class="si">}</span><span class="s"> %'</span><span class="p">)</span>
+<span class="c1"># Model accuracy: 53 %
+</span></code></pre></div></div>
+<p>Accuracy of <strong>53%</strong> is not state-of-the-art, but it’s much better than randomly guessing or just predicting one class, so our model has definitely learned some! :)</p>
+
+<p>Next, we can quickly check out how it performed at classifying each class:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">correct_pred</span> <span class="o">=</span> <span class="p">{</span><span class="n">classname</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">classname</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">}</span>
+<span class="n">total_pred</span> <span class="o">=</span> <span class="p">{</span><span class="n">classname</span><span class="p">:</span> <span class="mi">0</span>  <span class="k">for</span> <span class="n">classname</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">}</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+  <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test_dataloader</span><span class="p">:</span>
+    <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span><span class="n">prediction</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="n">prediction</span><span class="p">:</span>
+        <span class="n">correct_pred</span><span class="p">[</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="n">total_pred</span><span class="p">[</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">classname</span><span class="p">,</span> <span class="n">correct_count</span> <span class="ow">in</span> <span class="n">correct_pred</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+  <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">correct_count</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_pred</span><span class="p">[</span><span class="n">classname</span><span class="p">]</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Accuracy for class </span><span class="si">{</span><span class="n">classname</span><span class="p">:</span><span class="mi">5</span><span class="n">s</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">accuracy</span><span class="p">:.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%'</span><span class="p">)</span>
+<span class="c1"># Accuracy for class airplane: 58.9%
+# Accuracy for class automobile: 61.2%
+# Accuracy for class bird : 33.5%
+# Accuracy for class cat  : 35.4%
+# Accuracy for class deer : 52.8%
+# Accuracy for class dog  : 49.4%
+# Accuracy for class frog : 60.6%
+# Accuracy for class horse: 59.6%
+# Accuracy for class ship : 64.5%
+# Accuracy for class truck: 63.1%
+</span></code></pre></div></div>
+<p>So now we have a little better insight into our model’s performance: images of cats and birds were more difficult for the network to classify.</p>
+
+<h1 id="to-be-continued">To be continued…</h1>
+
+<p>Obviously, fully connected networks like the one we built in this tutorial aren’t typically used for image classification. In part 2 of this tutorial, we will focus a little more on optimizing performance in PyTorch:</p>
+<ul>
+  <li>using CNNs for image classification</li>
+  <li>hyperparameter tuning</li>
+  <li>data augmentation</li>
+  <li>transfer learning</li>
+</ul>
+
+<p>I hope you enjoyed, and learned a little. If you’d like to learn more, PyTorch has some excellent <a href="https://pytorch.org/docs/stable/index.html">documentation</a>, so I encourage you to check it out! Thanks for reading!</p>
+
+<h2 id="published-in-towards-data-science"><a href="https://medium.com/towards-data-science/intro-to-pytorch-part-1-663574fb9675">Published in Towards Data Science</a></h2>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="./../assets/images/pytorch.png" alt="" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><em>PyTorch is pretty awesome :)</em></td>
+    </tr>
+  </tbody>
+</table>
+
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+                <section class="subscribe-form">
+                    <h3 class="subscribe-form-title">Subscribe to Exploring AI</h3>
+                    <p>Get the latest posts delivered right to your inbox</p>
+                    <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+                </section>
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="tony" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/tony">Tony Flores</a></h4>
+                                
+                                    <p>Software Developer. M.S. in Computer Science. B.S. in Biology. AI/ML enthusiast.</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/tony">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+                <section class="post-full-comments">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        var disqus_config = function () {
+                            var this_page_url = '/pytorch-intro';
+                            var this_page_identifier = '/pytorch-intro';
+                            var this_page_title = 'Intro to PyTorch: Part 1';
+                        };
+                        (function() {
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://exploring-ai.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                </section>
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/thelogo.PNG)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; Exploring AI &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/tutorial/">Tutorial</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/21-pytorch-cnn">Intro to PyTorch 2: Convolutional Neural Networks</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/tutorial/">
+                                
+                                    See all 1 posts  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/polymer-ml">
+                <div class="post-card-image" style="background-image: url(/assets/images/rings.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/polymer-ml">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Applications</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Literature review</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Series</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Machine learning</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Machine Learning in Materials Science</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>Machine Learning in Materials Science
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="Tony Flores" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/tony/">Tony Flores</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      7 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/numpy">
+                <div class="post-card-image" style="background-image: url(/assets/images/numpy.jpeg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/numpy">
+                <header class="post-card-header">
+                    
+                        
+                            
+                                <span class="post-card-tags">Basics</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Intermediate Python: NumPy</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>Numerical Python with NumPy
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="Tony Flores" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/tony/">Tony Flores</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      1 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="/">
+            
+            <span>Exploring AI</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Intro to PyTorch: Part 1</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Intro+to+PyTorch%3A+Part+1&amp;url=https://exploring-ai.com/pytorch-intro"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://exploring-ai.com/pytorch-intro"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="/">Exploring AI</a> &copy; 2024</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyllt/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    <a href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener">Twitter</a>
+                    <!-- <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a> -->
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+        <div id="subscribe" class="subscribe-overlay">
+            <a class="subscribe-overlay-close" href="#"></a>
+            <div class="subscribe-overlay-content">
+                
+                <h1 class="subscribe-overlay-title">Subscribe to Exploring AI</h1>
+                <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+                <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+            </div>
+        </div>
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-34GQSQ4DKR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-34GQSQ4DKR');
+</script>
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>

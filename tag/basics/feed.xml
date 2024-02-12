@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<feed xmlns="http://www.w3.org/2005/Atom" >
+  <generator uri="https://jekyllrb.com/" version="3.9.0">Jekyll</generator>
+  <link href="/tag/basics/feed.xml" rel="self" type="application/atom+xml" />
+  <link href="/" rel="alternate" type="text/html" />
+  <updated>2024-02-12T17:39:21+00:00</updated>
+  <id>/tag/basics/feed.xml</id>
+
+  
+  
+  
+
+  
+    <title type="html">Exploring AI | </title>
+  
+
+  
+    <subtitle>Come explore the wonders of AI</subtitle>
+  
+
+  
+
+  
+    
+      
+    
+  
+
+  
+  
+
+  
+    <entry>
+      <title type="html">Intermediate Python: NumPy</title>
+      <link href="/numpy" rel="alternate" type="text/html" title="Intermediate Python: NumPy" />
+      <published>2022-02-21T08:00:00+00:00</published>
+      <updated>2022-02-21T08:00:00+00:00</updated>
+      <id>/numpy</id>
+      <content type="html" xml:base="/numpy">&lt;h1 id=&quot;numerical-python-with-numpy&quot;&gt;Numerical Python with NumPy&lt;/h1&gt;
+
+&lt;p&gt;Multi-dimensional arrays are fundamental building blocks for machine learning. When it comes to machine learning, NumPy is a great place to start if you already know the basics of Python. If you’re interested in learning NumPy and working with multi-dimensional (n-dimensional) arrays, check out this post in Towards Data Science!&lt;/p&gt;
+
+&lt;h2 id=&quot;intermediate-python-numpy-in-towards-data-science&quot;&gt;&lt;a href=&quot;https://towardsdatascience.com/intermediate-python-numpy-cec1c192b8e6&quot;&gt;Intermediate Python: NumPy in Towards Data Science&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/images/numpy1.JPG&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>Tony Flores</name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="basics" />
+      
+
+      
+        <summary type="html">Numerical Python with NumPy</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Median Filtering with Python and OpenCV</title>
+      <link href="/median" rel="alternate" type="text/html" title="Median Filtering with Python and OpenCV" />
+      <published>2022-02-21T08:00:00+00:00</published>
+      <updated>2022-02-21T08:00:00+00:00</updated>
+      <id>/median</id>
+      <content type="html" xml:base="/median">&lt;h1 id=&quot;median-filtering&quot;&gt;Median Filtering&lt;/h1&gt;
+
+&lt;p&gt;Computer vision is a fascinating subset of artificial intelligence. The fundamentals of computer vision start with the numerical representation of images and the elementary methods for manipulating them. Check out my brief discussion about median filtering using Python and OpenCV!&lt;/p&gt;
+
+&lt;h2 id=&quot;median-filtering-with-python-and-opencv&quot;&gt;&lt;a href=&quot;https://medium.com/@florestony5454/median-filtering-with-python-and-opencv-2bce390be0d1&quot;&gt;Median Filtering with Python and OpenCV&lt;/a&gt;&lt;/h2&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/images/median1.JPG&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>Tony Flores</name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="basics" />
+      
+        <category term="computer-vision" />
+      
+
+      
+        <summary type="html">Median Filtering</summary>
+      
+
+      
+      
+    </entry>
+  
+    <entry>
+      <title type="html">Edge Detection with Python</title>
+      <link href="/edge-detect" rel="alternate" type="text/html" title="Edge Detection with Python" />
+      <published>2022-02-21T08:00:00+00:00</published>
+      <updated>2022-02-21T08:00:00+00:00</updated>
+      <id>/edge-detect</id>
+      <content type="html" xml:base="/edge-detect">&lt;p&gt;In computer vision, the detection of edges is utilized to differentiate one object from another (or the background), capture changes in physical properties, and capture important features. Check out my discussion of the basics of edge detection!&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://medium.com/@florestony5454/edge-detection-with-python-101-b83d78f240c0&quot;&gt;Edge Detection with Python 101&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../assets/images/edge1.JPG&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;</content>
+
+      
+      
+      
+      
+      
+
+      <author>
+          <name>Tony Flores</name>
+        
+        
+      </author>
+
+      
+
+      
+        <category term="basics" />
+      
+        <category term="computer-vision" />
+      
+
+      
+        <summary type="html">In computer vision, the detection of edges is utilized to differentiate one object from another (or the background), capture changes in physical properties, and capture important features. Check out my discussion of the basics of edge detection!</summary>
+      
+
+      
+      
+    </entry>
+  
+</feed>

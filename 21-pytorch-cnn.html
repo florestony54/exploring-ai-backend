@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <!-- Document Settings -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+    <!-- Base Meta -->
+    <!-- dynamically fixing the title for tag/author pages -->
+
+
+
+    <title>Intro to PyTorch 2: Convolutional Neural Networks</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Styles'n'Scripts -->
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/screen.edited.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/built/syntax.css" />
+    <!-- highlight.js -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <style>.hljs { background: none; }</style>
+
+    <!--[if IE]>
+        <style>
+            p, ol, ul{
+                width: 100%;
+            }
+            blockquote{
+                width: 100%;
+            }
+        </style>
+    <![endif]-->
+    
+    <!-- This tag outputs SEO meta+structured data and other important settings -->
+    <meta name="description" content="Come explore the wonders of AI" />
+    <link rel="shortcut icon" href="/assets/images/favicon.png" type="image/png" />
+    <link rel="canonical" href="/21-pytorch-cnn" />
+    <meta name="referrer" content="no-referrer-when-downgrade" />
+
+     <!--title below is coming from _includes/dynamic_title-->
+    <meta property="og:site_name" content="Exploring AI" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Intro to PyTorch 2: Convolutional Neural Networks" />
+    <meta property="og:description" content="Intro In the previous iteration of this series, we worked with the CIFAR-10 dataset and introduced the basics of PyTorch: The Tensor and some associated operations Datasets and the DataLoader Building a basic neural network Basic model training and evaluation The model we developed for classifying images in the CIFAR-10" />
+    <meta property="og:url" content="/21-pytorch-cnn" />
+    <meta property="og:image" content="/assets/images/pytorch2.png" />
+    <meta property="article:publisher" content="https://www.facebook.com/" />
+    <meta property="article:author" content="https://www.facebook.com/" />
+    <meta property="article:published_time" content="2022-10-06T08:00:00+00:00" />
+    <meta property="article:modified_time" content="2022-10-06T08:00:00+00:00" />
+    <meta property="article:tag" content="Tutorial" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Intro to PyTorch 2: Convolutional Neural Networks" />
+    <meta name="twitter:description" content="Intro In the previous iteration of this series, we worked with the CIFAR-10 dataset and introduced the basics of PyTorch: The Tensor and some associated operations Datasets and the DataLoader Building a basic neural network Basic model training and evaluation The model we developed for classifying images in the CIFAR-10" />
+    <meta name="twitter:url" content="/" />
+    <meta name="twitter:image" content="/assets/images/pytorch2.png" />
+    <meta name="twitter:label1" content="Written by" />
+    <meta name="twitter:data1" content="Exploring AI" />
+    <meta name="twitter:label2" content="Filed under" />
+    <meta name="twitter:data2" content="Tutorial" />
+    <meta name="twitter:site" content="@exploringaiblog" />
+    <meta name="twitter:creator" content="@exploringaiblog" />
+    <meta property="og:image:width" content="1400" />
+    <meta property="og:image:height" content="933" />
+
+    <script type="application/ld+json">
+{
+    "@context": "https://schema.org",
+    "@type": "Website",
+    "publisher": {
+        "@type": "Organization",
+        "name": "Exploring AI",
+        "logo": "/"
+    },
+    "url": "/21-pytorch-cnn",
+    "image": {
+        "@type": "ImageObject",
+        "url": "/assets/images/pytorch2.png",
+        "width": 2000,
+        "height": 666
+    },
+    "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "/21-pytorch-cnn"
+    },
+    "description": "Intro In the previous iteration of this series, we worked with the CIFAR-10 dataset and introduced the basics of PyTorch: The Tensor and some associated operations Datasets and the DataLoader Building a basic neural network Basic model training and evaluation The model we developed for classifying images in the CIFAR-10"
+}
+    </script>
+
+    <!-- <script type="text/javascript" src="https://demo.ghost.io/public/ghost-sdk.min.js?v=724281a32e"></script>
+    <script type="text/javascript">
+    ghost.init({
+    	clientId: "ghost-frontend",
+    	clientSecret: "f84a07a72b17"
+    });
+    </script> -->
+
+    <meta name="generator" content="Jekyll 3.6.2" />
+    <link rel="alternate" type="application/rss+xml" title="Intro to PyTorch 2: Convolutional Neural Networks" href="/feed.xml" />
+
+
+</head>
+<body class="post-template">
+
+    <div class="site-wrapper">
+        <!-- All the main content gets inserted here, index.hbs, post.hbs, etc -->
+        <!-- default -->
+
+<!-- The tag above means: insert everything in this file
+into the {body} of the default.hbs template -->
+
+<header class="site-header outer">
+    <div class="inner">
+        <nav class="site-nav">
+    <div class="site-nav-left">
+        
+            
+                <a class="site-nav-logo" href="/">Exploring AI</a>
+            
+        
+        
+            <ul class="nav" role="menu">
+    <li class="nav-home" role="menuitem"><a href="/">Home</a></li>
+    <li class="nav-about" role="menuitem"><a href="/about/">About</a></li>
+    <!-- <li class="nav-getting-started" role="menuitem"><a href="/tag/getting-started/">Getting Started</a></li> -->
+    <!-- <li class="nav-try-ghost" role="menuitem"><a href="https://ghost.org">Try Ghost</a></li> -->
+</ul>
+
+        
+    </div>
+    <div class="site-nav-right">
+        <div class="social-links">
+            
+            
+                <a class="social-link social-link-tw" href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+</a>
+            
+        </div>
+        
+            <a class="subscribe-button" href="#subscribe">Subscribe</a>
+        
+    </div>
+</nav>
+
+    </div>
+</header>
+
+<!-- Everything inside the #post tags pulls data from the post -->
+<!-- #post -->
+
+<main id="site-main" class="site-main outer" role="main">
+    <div class="inner">
+
+        <article class="post-full  tag-tutorial tag-series tag-deep-learning post ">
+
+            <header class="post-full-header">
+                <section class="post-full-meta">
+                    <time class="post-full-meta-date" datetime=" 6 October 2022"> 6 October 2022</time>
+                    
+                        <span class="date-divider">/</span>
+                        
+                            
+                               <a href='/tag/tutorial/'>TUTORIAL</a>,
+                            
+                        
+                            
+                               <a href='/tag/series/'>SERIES</a>,
+                            
+                        
+                            
+                               <a href='/tag/deep-learning/'>DEEP LEARNING</a>
+                            
+                        
+                    
+                </section>
+                <h1 class="post-full-title">Intro to PyTorch 2: Convolutional Neural Networks</h1>
+            </header>
+
+            
+            <figure class="post-full-image" style="background-image: url(/assets/images/pytorch2.png)">
+            </figure>
+            
+
+            <section class="post-full-content">
+                <div class="kg-card-markdown">
+                    <h1 id="intro">Intro</h1>
+<p>In the previous iteration of this series, we worked with the CIFAR-10 dataset and introduced the basics of PyTorch:</p>
+
+<ul>
+  <li>The Tensor and some associated operations</li>
+  <li>Datasets and the DataLoader</li>
+  <li>Building a basic neural network</li>
+  <li>Basic model training and evaluation</li>
+</ul>
+
+<p>The model we developed for classifying images in the CIFAR-10 dataset was only able to achieve a 53% accuracy on the validation set, and really struggled to correctly classify images of some classes, like birds and cats (~33-35%). This was expected, since we would normally use Convolutional Neural Networks for image classification. In this part of the tutorial series, we will focus on CNN’s and improving the performance of image classification on CIFAR-10.</p>
+
+<h1 id="cnn-basics">CNN Basics</h1>
+
+<p>Before we dive into the code, let’s discuss the basics of convolutional neural networks so we can have a better understanding of what our code is doing. If you’re comfortable with how CNN’s work, feel free to skip this section.</p>
+
+<p>In comparison to feed-forward networks, like the one we developed in the previous part of the series, CNN’s have different architecture, and are composed of different types of layers. In the figure below, we can see the general architecture of a typical CNN, including the different types of layers it can contain.</p>
+
+<p><img src="../assets/images/cnn-diagram.png" alt="" /></p>
+
+<p>The three types of layers usually present in a Convolutional Network are:</p>
+
+<ul>
+  <li>Convolutional Layers (red dashed outline)</li>
+  <li>Pooling Layers (blue dashed outline)</li>
+  <li>Fully Connected Layers (Red and Purple solid outlines)</li>
+</ul>
+
+<h2 id="convolutional-layer">Convolutional Layer</h2>
+
+<p>The defining component, and first layer of a CNN is the convolutional layer, and it consists of the following:</p>
+
+<ul>
+  <li>Input data (in this case, in image)</li>
+  <li>Filters</li>
+  <li>Feature Maps</li>
+</ul>
+
+<p>What really differentiates a convolutional layer from a densely connected layer is the convolution operation. We wont get into the deep specifics on the definition of convolution, but if you are really interested and want to get into the meat of it, <a href="https://betterexplained.com/articles/intuitive-convolution/#Part_3_Mathematical_Properties_of_Convolution">this article</a> does an excellent job of explaining the mathematical definition, as well as giving some really fine concrete examples. I highly recommend it if you’re interested!</p>
+
+<p>So why is convolution better than a densely/fully connected layer for image data? In essence, dense layers will learn global patterns in their inputs, while convolutional layers have the advantage of learning local and spatial patterns. That may sound kind of vague or abstract, so let’s check out an example of what this means.</p>
+
+<p><img src="../assets/images/spatial.png" alt="" /></p>
+
+<p>On the left of the image we can see how a basic 2-D, black and white image of a 4 would be represented in a convolutional layer. The red square would be the filter/feature detector/kernel, convolving over the image. On the right is how the same image would be input into in a densely connected layer. You can see the same 9 image pixels that were framed by the kernel in red. Notice how on the left, pixels are grouped spatially, adjacent to other neighboring pixels. On the right, however, those same 9 pixels are no longer neighbors.</p>
+
+<p>With this, we can see how the spatial/location-based information is lost when an image is flattened and represented in a fully-connected/linear layer. This is why convolutional neural networks are more powerful at working with image data. The spatial structure of the input data is maintained, and patterns (edges, textures, shapes, etc.) in the image can be learned.</p>
+
+<p>This is essentially the <strong>why</strong> for using CNN’s on images, but now let’s discuss the <strong>how</strong>. Let’s have a look at the structure of our input data, these things we keep talking about called ‘filters’, and what convolution looks like when we put it all together.</p>
+
+<h3 id="input-data">Input Data</h3>
+
+<p>The CIFAR-10 dataset contains 60,000 32x32 color images, and each image is represented as a 3-D tensor. Each image will be a <code class="language-plaintext highlighter-rouge">(32,32,3)</code> tensor, where the dimensions are 32 (height) x 32 (weight) x 3 (R-G-B color channels). The figure below illustrates the 3 different color channels (RGB) separated out from the fully color image of a plane in the dataset.</p>
+
+<p><img src="../assets/images/rgbsplit.png" alt="" /></p>
+
+<p>Images are usually thought of as 2-dimensional, so it can be easy to foget that since they have 3 color channels, they will actually be represented in 3 dimensions!</p>
+
+<h3 id="filters">Filters</h3>
+
+<p>The filter (also referred to as a kernel or feature detector) in a convolutional layer is an array of weights that essentially scans over the image in a sliding-window fashion, computing the dot product at each stop, and outputs this dot product into a new array called a feature map. The sliding-window scanning is called convolution. Let’s have a look at an illustration of this process to help make sense of what’s going on.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="../assets/images/conv3d.gif" alt="Convolution of an image" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><em>Illustration of a 3x3 filter (blue) convolving over an input (red) to create a feature map (purple).</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><img src="../assets/images/conv.gif" alt="Convolution of an image" /></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><em>Illustration of the dot product computation at every step of the convolution.</em></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It’s important to note that the weights of the filter remain the same through each step. Just like the weights in a fully connected layer, these values are learned during training, and adjusted after each training iteration through backpropagation. The illustrations don’t tell the whole picture though. When training a CNN, your model won’t just have 1 filter at a convolutional layer. It’s pretty common to have 32 or 64 filters in a single convolutional layer, and in fact, we will have up to 96 filters in a layer in the model we develop in this tutorial.</p>
+
+<p>Finally, though the weights of the filters are the main parameters that are trained, there are also hyper-parameters that can be tuned for CNNs:</p>
+<ul>
+  <li>number of filters in a layer</li>
+  <li>dimensions of filters</li>
+  <li>stride (number of pixels a filter moves each step)</li>
+  <li>padding (how the filter handles boundaries of images)</li>
+</ul>
+
+<p>We won’t get into the details of these hyperparameters, since this isn’t intended to be a comprehensive CNN walkthrough, but these are important factors to be aware of.</p>
+
+<h1 id="pooling-layer">Pooling Layer</h1>
+
+<p>Pooling layers are similar to convolutional layers, in that a filter convolves over the input data (usually a feature map that was ouput from a convolutional layer). However, rather than feature detection, the function of pooling layers is dimensionality reduction or downsampling. The two most common types of pooling used are Max Pooling and Average Pooling. With Max Pooling, the filter slides across the input, and at each step will select the pixel with the largest value as the output. In Average Pooling, the filter will output the average value of the pixels that the filter is passing over.</p>
+
+<h1 id="fully-connected-layer">Fully Connected Layer</h1>
+
+<p>Finally, CNNs typically will have fully connected layers after convolutional and pooling layers, and these layers will perform the classification in image classification tasks such as the one in this tutorial.</p>
+
+<p>Now that we’ve gotten to see how Convolutional Neural Nets are structured and how they operate, let’s get to the fun part and train our own CNN in PyTorch!</p>
+
+<h1 id="setup">Setup</h1>
+
+<p>As with the first part of this tutorial, I recommend using Google Colab to follow along since you will have your Python environment set up already with PyTorch and other libraries installed, as well as a GPU to train your model.</p>
+
+<p>So, if you are using Colab, to make sure you are utilizing a GPU go to <code class="language-plaintext highlighter-rouge">Runtime</code> and click <code class="language-plaintext highlighter-rouge">Change runtime type</code>.</p>
+
+<p><img src="../assets/images/colab1.png" alt="" /></p>
+
+<p>In the dialog select <code class="language-plaintext highlighter-rouge">GPU</code> and save.</p>
+
+<p><img src="../assets/images/colab2.png" alt="" /></p>
+
+<p>Now you have GPU access in Colab, and we can verify your device with PyTorch. So first, let’s get our imports taken care of:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">nn</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">DataLoader</span>
+<span class="kn">from</span> <span class="nn">torchvision.utils</span> <span class="kn">import</span> <span class="n">make_grid</span>
+<span class="kn">from</span> <span class="nn">torchvision.datasets</span> <span class="kn">import</span> <span class="n">CIFAR10</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">transforms</span>
+<span class="kn">from</span> <span class="nn">torchvision</span> <span class="kn">import</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">torchvision.utils</span> <span class="kn">import</span> <span class="n">make_grid</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+</code></pre></div></div>
+
+<p>If you want to check what GPU you have access to, type and execute <code class="language-plaintext highlighter-rouge">torch.cuda.get_device_name(0)</code> and you should see your device output. Colab has a few different GPU options available, so your output will vary depending on what you are given access to, but as long as you dont get <code class="language-plaintext highlighter-rouge">RuntimeError: No CUDA GPUs are available</code> when you run this code, you are using a GPU!</p>
+
+<p>We can set our GPU as <code class="language-plaintext highlighter-rouge">device</code> so as we develop our model, we can assign it to the GPU by referencing <code class="language-plaintext highlighter-rouge">device</code>, as well as use CPU if we don’t have a CUDA GPU device available.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">device</span> <span class="o">=</span> <span class="s">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="p">.</span><span class="n">cuda</span><span class="p">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s">"cpu"</span>
+<span class="k">print</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="c1"># cuda
+</span></code></pre></div></div>
+
+<p>Next, let’s set a random seed so that our results are reproducible as well as download our training data and set a <code class="language-plaintext highlighter-rouge">transform</code> to convert images to Tensors and Normalize the data.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">torch</span><span class="p">.</span><span class="n">manual_seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+     <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))]</span>
+<span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">training_data</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">"cifar"</span><span class="p">,</span>
+                        <span class="n">train</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                        <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                        <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
+
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span> <span class="o">=</span> <span class="s">"cifar"</span><span class="p">,</span>
+                    <span class="n">train</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span>
+                    <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                    <span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Once that has finished downloading, let’s check out the classes in the dataset:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">classes</span> <span class="o">=</span> <span class="n">training_data</span><span class="p">.</span><span class="n">classes</span>
+<span class="n">classes</span>
+<span class="c1">#['airplane',
+# 'automobile',
+# 'bird',
+# 'cat',
+# 'deer',
+# 'dog',
+# 'frog',
+# 'horse',
+# 'ship',
+# 'truck']
+</span></code></pre></div></div>
+
+<p>Finally, let’s setup our train and test dataloaders:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">24</span>
+
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">train_dataloader</span><span class="p">:</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Shape of X [N, C, H, W]: </span><span class="si">{</span><span class="n">X</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+  <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Shape of y: </span><span class="si">{</span><span class="n">y</span><span class="p">.</span><span class="n">shape</span><span class="si">}</span><span class="s"> </span><span class="si">{</span><span class="n">y</span><span class="p">.</span><span class="n">dtype</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+  <span class="k">break</span>
+
+<span class="c1">#Shape of X [N, C, H, W]: torch.Size([24, 3, 32, 32])
+#Shape of y: torch.Size([24]) torch.int64
+</span></code></pre></div></div>
+
+<p>Now we’re ready to build our model!</p>
+
+<h1 id="building-the-cnn">Building the CNN</h1>
+
+<p>In PyTorch,  <code class="language-plaintext highlighter-rouge">nn.Conv2d</code> is the convolutional layer that is used on image input data. The first argument for <code class="language-plaintext highlighter-rouge">Conv2d</code> is the number of channels in the input, so for our first convolutional layer, we will use 3 since a color image will have 3 color channels. After the first convolutional layer, this argument will depend on the number of channels output from the previous layer. The second argument  is the number of channels that are output from the convolution operation in the layer. These channels are the feature maps that were discussed in the intro to the convolutional layer. Finally, the third argument will be the size of the kernel or filter. This can be an integer value like <code class="language-plaintext highlighter-rouge">3</code> for a <code class="language-plaintext highlighter-rouge">3x3</code> kernel, or a tuple such as <code class="language-plaintext highlighter-rouge">(3,3)</code>. So our convolutional layers will take the form of <code class="language-plaintext highlighter-rouge">nn.Conv2d(in_channels, out_channels, kernel_size)</code>. Additional optional parameters can be added, including (but not limited to): <code class="language-plaintext highlighter-rouge">stride</code>, <code class="language-plaintext highlighter-rouge">padding</code>, and <code class="language-plaintext highlighter-rouge">dilation</code>. We will use <code class="language-plaintext highlighter-rouge">stride=2</code> in our convolutional layer <code class="language-plaintext highlighter-rouge">conv4</code>.</p>
+
+<p>After our series of convolutional layers, we will want to use a flattening layer to flatten our feature maps to be able to feed into linear layers, and for that we will use <code class="language-plaintext highlighter-rouge">nn.Flatten()</code>. We can apply batch normalization with <code class="language-plaintext highlighter-rouge">nn.BatchNorm1d()</code> and will need to pass the number of features as an argument. Finally, our linear, fully-connected layers are built using <code class="language-plaintext highlighter-rouge">nn.Linear()</code>, which will also take the number of features as the first argument, as well as specifying the number of output features as the second argument.</p>
+
+<p>So to begin defining the base architecture of our model, we will define a <code class="language-plaintext highlighter-rouge">ConvNet</code> class that inherits from the PyTorch <code class="language-plaintext highlighter-rouge">nn.Module</code> class. We can then define each of our layers as attributes for our class, and build them as we see fit. Once we’ve specified the layer architecture, we can define the flow of the model by creating a <code class="language-plaintext highlighter-rouge">forward()</code> method. We can wrap each layer with an activation function, and in our case we will be using <code class="language-plaintext highlighter-rouge">relu</code>. We can apply <code class="language-plaintext highlighter-rouge">dropout</code> between layers by passing the previous layer and <code class="language-plaintext highlighter-rouge">p</code> the probability of an element being dropped out (which defaults to 0.5). Finally, we create our model object and attach it to our <code class="language-plaintext highlighter-rouge">device</code> so that it can train on the GPU.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ConvNet</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">d1</span> <span class="o">=</span> <span class="mf">0.1</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv4</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">flat</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Flatten</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">batch_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="mi">96</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">96</span> <span class="o">*</span> <span class="mi">12</span> <span class="o">*</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">256</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">flat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">batch_norm</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ConvNet</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="train-and-test-functions">Train and Test Functions</h1>
+
+<p>If you went through the first part of this tutorial, our train and test functions will be identical to what we created then, except that we will be returning the <code class="language-plaintext highlighter-rouge">loss</code> in our train method, and <code class="language-plaintext highlighter-rouge">loss</code> and number of <code class="language-plaintext highlighter-rouge">correct</code> in our test method to utilize when we are tuning hyperparameters.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Train Method
+</span><span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">train</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dataloader</span><span class="p">):</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="c1"># Compute prediction error
+</span>        <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="n">loss</span> <span class="o">=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+        <span class="c1"># Backpropagation
+</span>        <span class="n">optimizer</span><span class="p">.</span><span class="n">zero_grad</span><span class="p">()</span>
+        <span class="n">loss</span><span class="p">.</span><span class="n">backward</span><span class="p">()</span>
+        <span class="n">optimizer</span><span class="p">.</span><span class="n">step</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+          <span class="k">if</span> <span class="n">batch</span> <span class="o">%</span> <span class="mi">50</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+              <span class="n">loss</span><span class="p">,</span> <span class="n">current</span> <span class="o">=</span> <span class="n">loss</span><span class="p">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">batch</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+              <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"loss: </span><span class="si">{</span><span class="n">loss</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">7</span><span class="n">f</span><span class="si">}</span><span class="s">  [</span><span class="si">{</span><span class="n">current</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">5</span><span class="n">d</span><span class="si">}</span><span class="s">/</span><span class="si">{</span><span class="n">size</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">5</span><span class="n">d</span><span class="si">}</span><span class="s">]"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">loss</span>
+</code></pre></div></div>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Test Method
+</span><span class="k">def</span> <span class="nf">test</span><span class="p">(</span><span class="n">dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">.</span><span class="n">dataset</span><span class="p">)</span>
+    <span class="n">num_batches</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataloader</span><span class="p">)</span>
+    <span class="n">model</span><span class="p">.</span><span class="nb">eval</span><span class="p">()</span>
+    <span class="n">test_loss</span><span class="p">,</span> <span class="n">correct</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">dataloader</span><span class="p">:</span>
+            <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">X</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">),</span> <span class="n">y</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+            <span class="n">test_loss</span> <span class="o">+=</span> <span class="n">loss_fn</span><span class="p">(</span><span class="n">pred</span><span class="p">,</span> <span class="n">y</span><span class="p">).</span><span class="n">item</span><span class="p">()</span>
+            <span class="n">correct</span> <span class="o">+=</span> <span class="p">(</span><span class="n">pred</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="n">y</span><span class="p">).</span><span class="nb">type</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="nb">float</span><span class="p">).</span><span class="nb">sum</span><span class="p">().</span><span class="n">item</span><span class="p">()</span>
+    <span class="n">test_loss</span> <span class="o">/=</span> <span class="n">num_batches</span>
+    <span class="n">correct</span> <span class="o">/=</span> <span class="n">size</span>
+    <span class="k">if</span> <span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Test Error: </span><span class="se">\n</span><span class="s"> Accuracy: </span><span class="si">{</span><span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">correct</span><span class="p">):</span><span class="o">&gt;</span><span class="mf">0.1</span><span class="n">f</span><span class="si">}</span><span class="s">%, Avg loss: </span><span class="si">{</span><span class="n">test_loss</span><span class="p">:</span><span class="o">&gt;</span><span class="mi">8</span><span class="n">f</span><span class="si">}</span><span class="s"> </span><span class="se">\n</span><span class="s">"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">correct</span> <span class="c1"># For reporting tuning results/ early stopping
+</span></code></pre></div></div>
+
+<p>Finally, we define the loss function and optimizer before the base model training.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Let’s train the model.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s">-------------------------------"</span><span class="p">)</span>
+    <span class="n">train</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+    <span class="n">test</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Done!"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="../assets/images/colab4.png" alt="" /></p>
+
+<p>After only 10 epochs, 61.7% is much better performance than fully connected model we trained! It’s pretty clear that a CNN is much better suited for classifying images, but we can squeeze out even more performance by extending the training duration and tuning hyperparameters. Before we get to that, let’s take a quick peek under the hood and check out what the filters look like. Recall that the pixels of the filters are the trainable parameters in our model. This isn’t a necessary step for training a model for image classification, nor will we find much useful information, but it’s pretty neat to see what’s going on inside our model.</p>
+
+<h1 id="visualizing-filters">Visualizing Filters</h1>
+
+<p>We can write a function to plot the filters from a specified layer in the model. All we have to do is specify which layer we want to see and pass that into our function.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">visualizeTensor</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> <span class="n">ch</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">all_kernels</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">nrow</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span> 
+    <span class="n">n</span><span class="p">,</span><span class="n">c</span><span class="p">,</span><span class="n">w</span><span class="p">,</span><span class="n">h</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">.</span><span class="n">shape</span>
+
+    <span class="k">if</span> <span class="n">all_kernels</span><span class="p">:</span> 
+        <span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">c</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span> 
+        <span class="n">tensor</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">[:,</span><span class="n">ch</span><span class="p">,:,:].</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">((</span><span class="n">tensor</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">//</span> <span class="n">nrow</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">64</span><span class="p">))</span>    
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">utils</span><span class="p">.</span><span class="n">make_grid</span><span class="p">(</span><span class="n">tensor</span><span class="p">,</span> 
+                           <span class="n">nrow</span><span class="o">=</span><span class="n">nrow</span><span class="p">,</span> 
+                           <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+                           <span class="n">padding</span><span class="o">=</span><span class="n">padding</span><span class="p">)</span>
+    <span class="n">grid</span> <span class="o">=</span> <span class="n">grid</span><span class="p">.</span><span class="n">cpu</span><span class="p">()</span> <span class="c1"># back to cpu for numpy and plotting
+</span>    <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">nrow</span><span class="p">,</span><span class="n">rows</span><span class="p">)</span> <span class="p">)</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grid</span><span class="p">.</span><span class="n">numpy</span><span class="p">().</span><span class="n">transpose</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>Let’s check out what the filters in the first convolutional layer (<code class="language-plaintext highlighter-rouge">conv1</code>) look like since these are applied directly to the images.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">filter</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">conv1</span><span class="p">.</span><span class="n">weight</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">clone</span><span class="p">()</span>
+<span class="n">visualizeTensor</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">'off'</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">ioff</span><span class="p">()</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span>
+</code></pre></div></div>
+
+<p>Below is the output, containing the visualization of the 48 filters from our <code class="language-plaintext highlighter-rouge">conv1</code> convolutional layer. We can see that each filter is a 3x3 tensor of different values or colors.</p>
+
+<p><img src="../assets/images/colab5.png" alt="" /></p>
+
+<p>If our filters were 5x5 instead, we would see this difference in the plot. Recall that with <code class="language-plaintext highlighter-rouge">nn.Conv2d</code> we can change the size of the filter with the third argument, so if we wanted a 5x5, <code class="language-plaintext highlighter-rouge">conv1</code> would look like this:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span> <span class="c1"># New Kernel Size
+</span></code></pre></div></div>
+
+<p>If we re-trained the model with the new 5x5 filters the output would now look like this:</p>
+
+<p><img src="../assets/images/colab6.png" alt="" /></p>
+
+<p>Like I mentioned before, not too much useful information, but interesting to see nonetheless.</p>
+
+<h1 id="hyperparameter-optimization">Hyperparameter Optimization</h1>
+
+<p>For this tutorial, the hyperparameters that we’ll be tuning are the number of filters in our convolutional layers, and the number of neurons in our linear layer. Right now these values are hard-coded into our model, so to make them tunable we will need to make our model configurable. We can use parameters (<code class="language-plaintext highlighter-rouge">c1</code>, <code class="language-plaintext highlighter-rouge">c2</code>, and <code class="language-plaintext highlighter-rouge">l1</code>) in our models <code class="language-plaintext highlighter-rouge">__init__</code> method, and create the model’s layers with these values, which will be passed dynamically during the tuning process.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ConfigNet</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l1</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mi">96</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">d1</span> <span class="o">=</span> <span class="n">d1</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv4</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">flat</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Flatten</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">batch_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="n">c2</span> <span class="o">*</span> <span class="mi">144</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">c2</span> <span class="o">*</span> <span class="mi">144</span><span class="p">,</span> <span class="n">l1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">flat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">batch_norm</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ConfigNet</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We certainly aren’t limited to tuning only these hyperparameters. In fact, learning rate and batch size are commonly included in the list of hyperparameters to tune, but since we will be using a grid search, we’ll have to greatly reduce the number of tunable variables to keep the training time reasonable.</p>
+
+<p>Next let’s define a dictionary for our search space, as well as one to save the parameters that give us the best results. Since we’re using grid search for our optimization, every combination of each hyperparameter listed will be used. You can just as easily add more values to the lists for each hyperparameter, but each additional value will greatly increase the runtime, so it’s recommended to start with the following values to save time.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">search_space</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'c1'</span><span class="p">:</span> <span class="p">[</span><span class="mi">48</span><span class="p">,</span> <span class="mi">96</span><span class="p">],</span>
+    <span class="s">'c2'</span><span class="p">:</span> <span class="p">[</span><span class="mi">96</span><span class="p">,</span> <span class="mi">192</span><span class="p">],</span>
+    <span class="s">'l1'</span><span class="p">:</span> <span class="p">[</span><span class="mi">256</span><span class="p">,</span> <span class="mi">512</span><span class="p">],</span>
+<span class="p">}</span>
+
+<span class="n">best_results</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s">'c1'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="s">'c2'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="s">'l1'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="s">'loss'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+    <span class="s">'acc'</span><span class="p">:</span> <span class="mi">0</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="early-stopping">Early Stopping</h3>
+
+<p>One component that will be important in our optimization process is the usage of early stopping. Since we’ll have multiple training runs, each taking a significant amount of time to complete, we will want to cut a run short if training performance doesn’t show improvement. There’s no sense it continuing to train a model that isn’t improving.</p>
+
+<p>In essence, we will keep track of the lowest loss the model has produced after each epoch. We then define a <code class="language-plaintext highlighter-rouge">tolerance</code>, which specifies the number of epochs the model has to attain a better loss. If it doesn’t achieve a lower loss within the specified tolerance, training is terminated for that run, and we move on to the next combination of hyperparamters. If you’re like me, and you like to check in on the training process, we can log updates to the console and see when the early stopping counter increases by setting <code class="language-plaintext highlighter-rouge">self.verbose = True</code>. You can hard code that into the <code class="language-plaintext highlighter-rouge">EarlyStopping</code> class here, or you can change the <code class="language-plaintext highlighter-rouge">verbose</code> value when we instantiate an <code class="language-plaintext highlighter-rouge">EarlyStopping</code> object during our optimization process.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">EarlyStopping</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tolerance</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s">"cifar-tune.pth"</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">tolerance</span> <span class="o">=</span> <span class="n">tolerance</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">early_stop</span> <span class="o">=</span> <span class="bp">False</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">lowest_loss</span> <span class="o">=</span> <span class="bp">None</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">path</span>
+
+    <span class="k">def</span> <span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val_loss</span><span class="p">):</span>
+      <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">lowest_loss</span> <span class="o">==</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">lowest_loss</span> <span class="o">=</span> <span class="n">val_loss</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="bp">self</span><span class="p">.</span><span class="n">path</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="p">(</span><span class="n">val_loss</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">lowest_loss</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">lowest_loss</span> <span class="o">=</span> <span class="n">val_loss</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">torch</span><span class="p">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="bp">self</span><span class="p">.</span><span class="n">path</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span><span class="p">:</span>
+          <span class="k">print</span><span class="p">(</span><span class="s">"Early stop counter: {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">counter</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">counter</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">counter</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="p">.</span><span class="n">tolerance</span><span class="p">:</span>
+          <span class="bp">self</span><span class="p">.</span><span class="n">early_stop</span> <span class="o">=</span> <span class="bp">True</span>
+          <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'Early stopping executed.'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="image-augmentation">Image Augmentation</h1>
+
+<p>We have one last thing to do before setting up our hyperparameter optimization method to squeeze out some extra performance, and curb overfitting on our training data. Image Augmentation is a technique which applies random transforms to images, essentially creating “new” artificial data. These transforms can be things like:</p>
+<ul>
+  <li>rotating an image a few degrees</li>
+  <li>flipping an image horizontally/vertically</li>
+  <li>cropping</li>
+  <li>slight brightness/hue shifts</li>
+  <li>random zooming</li>
+</ul>
+
+<p>Including these random transforms will improve the model’s ability to generalize, since augmented images will be similar, but distinct to the original image. The contents and patterns will remain, but the array representation will be different.</p>
+
+<p>PyTorch makes image augmentation easy with the <code class="language-plaintext highlighter-rouge">torchvision.transforms</code> module. If we have several transforms we would like to apply, we can chain them together with <code class="language-plaintext highlighter-rouge">Compose</code>. One thing to keep in mind is that image augmentation requires a little bit of computation <strong>per transform</strong>, and this is applied to <strong>every image</strong> in the dataset. Applying a lot of different random transforms to our dataset will increase the time it takes to train. So for now, let’s limit the transforms so our training doesn’t take too long. If you would like to add a few more, check out <a href="https://pytorch.org/vision/stable/transforms.html">the PyTorch docs on transforming and augmenting images</a>, and just add those into the <code class="language-plaintext highlighter-rouge">Compose</code> list.</p>
+
+<p>Once we have the augmentation transforms picked, we can apply them to the dataset just as we would apply Normalization and transforming the images to a tensor.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Augment Images for the train set
+</span><span class="n">augmented</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">RandomRotation</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">ColorJitter</span><span class="p">(</span><span class="n">brightness</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="mf">0.1</span><span class="p">),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">RandomHorizontalFlip</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="c1"># Standard transformation for validation set
+</span><span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">Compose</span><span class="p">([</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">(),</span>
+    <span class="n">transforms</span><span class="p">.</span><span class="n">Normalize</span><span class="p">((</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="p">])</span>
+
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span><span class="o">=</span><span class="s">"cifar"</span><span class="p">,</span>
+                        <span class="n">train</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                        <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                        <span class="n">transform</span><span class="o">=</span><span class="n">augmented</span><span class="p">)</span>
+
+<span class="n">test_data</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span> <span class="o">=</span> <span class="s">"cifar"</span><span class="p">,</span>
+                    <span class="n">train</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span>
+                    <span class="n">download</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                    <span class="n">transform</span> <span class="o">=</span> <span class="n">transform</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now that we have image augmentation set up on our training data, we’re ready to set up our hyperparameter optimization method.</p>
+
+<h1 id="defining-the-optimization-method">Defining the Optimization Method</h1>
+
+<p>We can create a class (<code class="language-plaintext highlighter-rouge">HyperSearch</code>) with attributes for the hyperparameter value configuration, verbose reporting setting, a report list so we can see how each configuration performed after optimization completes, and a variable to store the config with the best performance.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HyperSearch</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">report_list</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span> <span class="o">=</span> <span class="p">{</span> <span class="s">'c1'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'c2'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'l1'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'loss'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'acc'</span><span class="p">:</span> <span class="mi">0</span>
+                          <span class="p">}</span>
+</code></pre></div></div>
+
+<p>Next, we can create a method (still in our <code class="language-plaintext highlighter-rouge">HyperSearch</code> class) to perform the grid search and do a training run with each combination of hyperparameters. First we’ll configure <code class="language-plaintext highlighter-rouge">EarlyStopping</code> with <code class="language-plaintext highlighter-rouge">tolerance=3</code>, and set it to save the weights for each hyperparameter combination. If we have <code class="language-plaintext highlighter-rouge">self.verbose</code> set to <code class="language-plaintext highlighter-rouge">True</code> we can see which hyperparameter combination is currently training in the console.</p>
+
+<p>After that, we define our <code class="language-plaintext highlighter-rouge">model</code> with the <code class="language-plaintext highlighter-rouge">CoinfigNet</code> model we designed, and pass the <code class="language-plaintext highlighter-rouge">l1</code>, <code class="language-plaintext highlighter-rouge">c1</code>, and <code class="language-plaintext highlighter-rouge">c2</code> values, as well as picking the loss function and optimizer, and setting up our train and validation <code class="language-plaintext highlighter-rouge">DataLoaders</code>. We will keep the number of epochs low, because we don’t have the time, nor desire, to train every combination fully. The goal is to get an idea of which combination will work best at classifying the dataset, then we can take that model and train it fully to see how well it can perform from a full training cycle.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1"># Optimization Method
+</span>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">l1</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'l1'</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'c1'</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'c2'</span><span class="p">]:</span>
+                    <span class="n">early_stopping</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s">"{}-{}-{}.pth"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">))</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                        <span class="k">print</span><span class="p">(</span><span class="s">'Conv1: {} | Conv2: {} | Lin1: {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">c1</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">c2</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">l1</span><span class="p">)))</span>
+                    
+                    <span class="n">model</span> <span class="o">=</span> <span class="n">ConfigNet</span><span class="p">(</span><span class="n">l1</span><span class="o">=</span><span class="n">l1</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="n">c2</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+                    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+                    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lrate</span><span class="p">)</span>
+
+                    <span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Now, we define our training loop, mostly the same as before, except now we’ll save the loss of the <code class="language-plaintext highlighter-rouge">train</code> and <code class="language-plaintext highlighter-rouge">test</code> methods so that <code class="language-plaintext highlighter-rouge">early_stopping</code> can keep track of training progress (or lack thereof). Finally after each epoch, the results are saved to a report, and the value for the best loss is updated.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s">-------------------------------"</span><span class="p">)</span>
+                        <span class="n">train_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">verbose</span><span class="p">)</span>
+                        <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">verbose</span><span class="p">)</span>
+
+                        <span class="c1"># Early Stopping
+</span>                        <span class="n">early_stopping</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">early_stopping</span><span class="p">.</span><span class="n">early_stop</span><span class="p">:</span>
+                          <span class="k">break</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">"Done!"</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">append_to_report</span><span class="p">(</span><span class="n">test_acc</span><span class="p">,</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">test_loss</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                            <span class="k">print</span><span class="p">(</span><span class="s">"UPDATE: Best loss changed from {} to {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">],</span> <span class="n">test_loss</span><span class="p">))</span>
+                        <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">.</span><span class="n">update</span><span class="p">({</span>
+                            <span class="s">'c1'</span><span class="p">:</span> <span class="n">c1</span><span class="p">,</span>
+                            <span class="s">'c2'</span><span class="p">:</span> <span class="n">c2</span><span class="p">,</span>
+                            <span class="s">'loss'</span><span class="p">:</span> <span class="n">test_loss</span><span class="p">,</span>
+                            <span class="s">'l1'</span><span class="p">:</span> <span class="n">l1</span><span class="p">,</span>
+                            <span class="s">'acc'</span><span class="p">:</span> <span class="n">test_acc</span>
+                        <span class="p">})</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">report</span><span class="p">()</span>
+
+</code></pre></div></div>
+
+<p>We can output the results of the entire hyperparameter optimization cycle in a nice table, where we’ll be able to see the hyperparameter configuration for each run, and the respective loss and accuracy.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"""
+|-----------------------------------------------------------------------------------------------------|
+|                                                                                                     |
+|                              Report for hyperparameter optimization                                 |
+|                                                                                                     |
+|-----------------------------------------------------------------------------------------------------|
+|    RUN     |              PERFORMANCE             |                   CONFIGURATION                 |
+|------------|--------------------------------------|-------------------------------------------------|"""</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">report_list</span><span class="p">):</span>
+            
+            <span class="k">print</span><span class="p">(</span><span class="s">"|   Run {:02d}   |  Accuracy: {:.2f}%   |   Loss: {:.2f}   |  Conv-1: {}  |  Conv-2: {:3}  |  Linear-1: {:&gt;4}  |"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"|------------|---------------------|----------------|--------------|---------------|------------------|"</span><span class="p">)</span>
+            
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Best Results | Accuracy: {:.2f}%  |  Loss: {:.2f}  |  Conv-1: {}   |  Conv-2: {}  |  Linear-1: {:&gt;4}  |"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'acc'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">],</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'c1'</span><span class="p">],</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'c2'</span><span class="p">],</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'l1'</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">append_to_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">):</span>
+        <span class="n">list_set</span> <span class="o">=</span> <span class="p">(</span><span class="n">acc</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">report_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_set</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>So putting all of this code together, our <code class="language-plaintext highlighter-rouge">HyperSearch</code> class should look like this:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">HyperSearch</span><span class="p">():</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">report_list</span> <span class="o">=</span> <span class="p">[]</span>
+      <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span> <span class="o">=</span> <span class="p">{</span> <span class="s">'c1'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'c2'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'l1'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'loss'</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                            <span class="s">'acc'</span><span class="p">:</span> <span class="mi">0</span>
+                            <span class="c1"># 'd1': None,
+</span>                            <span class="c1"># 'lr': None,
+</span>                            <span class="c1"># 'bsz': None,
+</span>                          <span class="p">}</span>
+
+    <span class="c1"># Optimization Method
+</span>    <span class="k">def</span> <span class="nf">optimize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">l1</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'l1'</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">c1</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'c1'</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">c2</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">config</span><span class="p">[</span><span class="s">'c2'</span><span class="p">]:</span>
+                    <span class="n">early_stopping</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s">"{}-{}-{}.pth"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">))</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                        <span class="k">print</span><span class="p">(</span><span class="s">'Conv1: {} | Conv2: {} | Lin1: {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">c1</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">c2</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">l1</span><span class="p">)))</span>
+                    <span class="n">model</span> <span class="o">=</span> <span class="n">ConfigNet</span><span class="p">(</span><span class="n">l1</span><span class="o">=</span><span class="n">l1</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="n">c2</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+                    <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+                    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lrate</span><span class="p">)</span>
+
+                    <span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+                    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">10</span>
+                    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s">-------------------------------"</span><span class="p">)</span>
+                        <span class="n">train_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">verbose</span><span class="p">)</span>
+                        <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">self</span><span class="p">.</span><span class="n">verbose</span><span class="p">)</span>
+
+                        <span class="c1"># Early Stopping
+</span>                        <span class="n">early_stopping</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">early_stopping</span><span class="p">.</span><span class="n">early_stop</span><span class="p">:</span>
+                          <span class="k">break</span>
+                    <span class="k">print</span><span class="p">(</span><span class="s">"Done!"</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="p">.</span><span class="n">append_to_report</span><span class="p">(</span><span class="n">test_acc</span><span class="p">,</span> <span class="n">test_loss</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">]</span> <span class="o">==</span> <span class="bp">None</span> <span class="ow">or</span> <span class="n">test_loss</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">]:</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">verbose</span> <span class="o">==</span> <span class="bp">True</span><span class="p">:</span>
+                            <span class="k">print</span><span class="p">(</span><span class="s">"UPDATE: Best loss changed from {} to {}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">],</span> <span class="n">test_loss</span><span class="p">))</span>
+                        <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">.</span><span class="n">update</span><span class="p">({</span>
+                            <span class="s">'c1'</span><span class="p">:</span> <span class="n">c1</span><span class="p">,</span>
+                            <span class="s">'c2'</span><span class="p">:</span> <span class="n">c2</span><span class="p">,</span>
+                            <span class="s">'loss'</span><span class="p">:</span> <span class="n">test_loss</span><span class="p">,</span>
+                            <span class="s">'l1'</span><span class="p">:</span> <span class="n">l1</span><span class="p">,</span>
+                            <span class="s">'acc'</span><span class="p">:</span> <span class="n">test_acc</span>
+                        <span class="p">})</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">report</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">report</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"""
+|-----------------------------------------------------------------------------------------------------|
+|                                                                                                     |
+|                              Report for hyperparameter optimization                                 |
+|                                                                                                     |
+|-----------------------------------------------------------------------------------------------------|
+|    RUN     |              PERFORMANCE             |                   CONFIGURATION                 |
+|------------|--------------------------------------|-------------------------------------------------|"""</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">report_list</span><span class="p">):</span>
+            
+            <span class="k">print</span><span class="p">(</span><span class="s">"|   Run {:02d}   |  Accuracy: {:.2f}%   |   Loss: {:.2f}   |  Conv-1: {}  |  Conv-2: {:3}  |  Linear-1: {:&gt;4}  |"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+                                                                                                                                       <span class="n">item</span><span class="p">[</span><span class="mi">4</span><span class="p">]))</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">"|------------|---------------------|----------------|--------------|---------------|------------------|"</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"</span><span class="se">\n</span><span class="s">Best Results | Accuracy: {:.2f}%  |  Loss: {:.2f}  |  Conv-1: {}   |  Conv-2: {}  |  Linear-1: {:&gt;4}  |"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'acc'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'loss'</span><span class="p">],</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'c1'</span><span class="p">],</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'c2'</span><span class="p">],</span>
+                                                                                                                                              <span class="bp">self</span><span class="p">.</span><span class="n">best_results</span><span class="p">[</span><span class="s">'l1'</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">append_to_report</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">acc</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">):</span>
+        <span class="n">list_set</span> <span class="o">=</span> <span class="p">(</span><span class="n">acc</span><span class="p">,</span> <span class="n">loss</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="n">l1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">report_list</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">list_set</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<h3 id="time-to-tune">Time to tune!</h3>
+
+<p>Now we can tune our hyperparameters! By using <code class="language-plaintext highlighter-rouge">%%time</code>, at the completion of execution of the entire tuning process, we can see exactly how long it all took. Let’s keep our learning rate <code class="language-plaintext highlighter-rouge">lrate=0.001</code> and the batch size <code class="language-plaintext highlighter-rouge">batch_sz=512</code>, instantiate <code class="language-plaintext highlighter-rouge">HyperSearch</code> with the <code class="language-plaintext highlighter-rouge">search_space</code> we defined earlier, set <code class="language-plaintext highlighter-rouge">verbose</code> equal to <code class="language-plaintext highlighter-rouge">True</code> or <code class="language-plaintext highlighter-rouge">False</code> (whichever you prefer), and call the <code class="language-plaintext highlighter-rouge">optimize()</code> method to start.</p>
+
+<p><strong>Note:</strong> This took about 50 minutes to complete on my machine with an NVIDIA RTX 3070, so expect this to take around that long to complete if you’re on Colab using the provided GPU.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span>
+
+<span class="n">lrate</span><span class="o">=</span><span class="mf">0.001</span>
+<span class="n">batch_sz</span><span class="o">=</span><span class="mi">512</span>
+
+<span class="n">hyper_search</span> <span class="o">=</span> <span class="n">HyperSearch</span><span class="p">(</span><span class="n">search_space</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">hyper_search</span><span class="p">.</span><span class="n">optimize</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Once the entire optimization cycle is complete, you should get a table like this:</p>
+
+<p><img src="../assets/images/hyper-report.png" alt="" /></p>
+
+<h3 id="results">Results</h3>
+
+<p>Looking at the table, the best results came from Run 00 which had <code class="language-plaintext highlighter-rouge">c1=48</code>, <code class="language-plaintext highlighter-rouge">c2=96</code>, and <code class="language-plaintext highlighter-rouge">l1=256</code>. A loss of 0.84 and accuracy of 71.24% is a nice improvement, especially considering it was only 10 epochs!</p>
+
+<p>So, now that we have the hyperparameters with the best performance over 10 epochs, let’s fine tune this model! We can train it over many more epochs, and lower the learning rate slightly to try and squeeze out a little more performance. So first, let’s define the model we’d like to use, and set the batch size and learning rate:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ConfigNet</span><span class="p">(</span><span class="n">nn</span><span class="p">.</span><span class="n">Module</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">l1</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mi">96</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">().</span><span class="n">__init__</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">d1</span> <span class="o">=</span> <span class="n">d1</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv3</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c1</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">conv4</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Conv2d</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="n">c2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">stride</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">flat</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Flatten</span><span class="p">()</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">batch_norm</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">BatchNorm1d</span><span class="p">(</span><span class="n">c2</span> <span class="o">*</span> <span class="mi">144</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc1</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">c2</span> <span class="o">*</span> <span class="mi">144</span><span class="p">,</span> <span class="n">l1</span><span class="p">)</span>
+    <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">Linear</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="p">.</span><span class="n">d1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv3</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">conv4</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">flat</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">batch_norm</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">functional</span><span class="p">.</span><span class="n">relu</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">fc1</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">fc2</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ConfigNet</span><span class="p">().</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">ConfigNet</span><span class="p">(</span><span class="n">l1</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mi">96</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">batch_sz</span> <span class="o">=</span> <span class="mi">512</span>
+<span class="n">lrate</span> <span class="o">=</span> <span class="mf">0.0008</span>
+</code></pre></div></div>
+
+<p>Finally, we can set <code class="language-plaintext highlighter-rouge">epochs</code> to 50, and change the path that we want to save the weights to. Let the training cycle run, and early stopping will terminate training if progress halts.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%%</span><span class="n">time</span>
+<span class="n">early_stopping</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">tolerance</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s">"cifar-optimized-test.pth"</span><span class="p">)</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">optim</span><span class="p">.</span><span class="n">Adam</span><span class="p">(</span><span class="n">model</span><span class="p">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="n">lrate</span><span class="p">)</span>
+
+<span class="n">train_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">training_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">epochs</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">"Epoch </span><span class="si">{</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="se">\n</span><span class="s">-------------------------------"</span><span class="p">)</span>
+    <span class="n">train_loss</span> <span class="o">=</span> <span class="n">train</span><span class="p">(</span><span class="n">train_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+    <span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+
+    <span class="c1"># Early Stopping
+</span>    <span class="n">early_stopping</span><span class="p">.</span><span class="n">step</span><span class="p">(</span><span class="n">test_loss</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">early_stopping</span><span class="p">.</span><span class="n">early_stop</span><span class="p">:</span>
+      <span class="k">break</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Done!"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Early stopping should terminate training before hitting 50 epochs, and should achieve an accuracy of about 77%.</p>
+
+<p><img src="../assets/images/hyper-finetune.png" alt="" /></p>
+
+<p>Now that we’ve tuned hyperparameters, found our best configuration, and fine-tuned that model, it’s time to evaluate the model’s performance a little more in-depth.</p>
+
+<h1 id="model-evaluation">Model Evaluation</h1>
+
+<p>In this case, our test dataset is actually our validation data. We will be reusing our validation data to evaluate the model, but usually you will want to use your real test data for model evaluation after hyperparameter tuning. Let’s load in our optimized model, prepare the <code class="language-plaintext highlighter-rouge">test_dataloader</code> without any image augmentation applied, and run <code class="language-plaintext highlighter-rouge">test()</code> to evaluate.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">ConfigNet</span><span class="p">(</span><span class="n">l1</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">c1</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="n">c2</span><span class="o">=</span><span class="mi">96</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mf">0.1</span><span class="p">).</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">model</span><span class="p">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">torch</span><span class="p">.</span><span class="n">load</span><span class="p">(</span><span class="s">"cifar-optimized-test.pth"</span><span class="p">))</span>
+
+<span class="n">loss_fn</span> <span class="o">=</span> <span class="n">nn</span><span class="p">.</span><span class="n">CrossEntropyLoss</span><span class="p">()</span>
+<span class="n">batch_sz</span> <span class="o">=</span> <span class="mi">512</span>
+
+<span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">.</span><span class="n">classes</span>
+</code></pre></div></div>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span> <span class="o">=</span> <span class="n">test</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">loss_fn</span><span class="p">)</span>
+</code></pre></div></div>
+<p>This should output the accuracy and loss:</p>
+
+<p><img src="../assets/images/model-eval.png" alt="" /></p>
+
+<p>The overall performance is nice, but the performance for each class will be more useful to us. The following code will output our model’s accuracy for each class in the dataset:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">correct_pred</span> <span class="o">=</span> <span class="p">{</span><span class="n">classname</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">classname</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">}</span>
+<span class="n">total_pred</span> <span class="o">=</span> <span class="p">{</span><span class="n">classname</span><span class="p">:</span> <span class="mi">0</span>  <span class="k">for</span> <span class="n">classname</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">}</span>
+
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="n">test_dataloader</span><span class="p">:</span>
+        <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">data</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">predictions</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">label</span><span class="p">,</span><span class="n">prediction</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">predictions</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">label</span> <span class="o">==</span> <span class="n">prediction</span><span class="p">:</span>
+            <span class="n">correct_pred</span><span class="p">[</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">total_pred</span><span class="p">[</span><span class="n">classes</span><span class="p">[</span><span class="n">label</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">classname</span><span class="p">,</span> <span class="n">correct_count</span> <span class="ow">in</span> <span class="n">correct_pred</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">accuracy</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="n">correct_count</span><span class="p">)</span> <span class="o">/</span> <span class="n">total_pred</span><span class="p">[</span><span class="n">classname</span><span class="p">]</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'Accuracy for class </span><span class="si">{</span><span class="n">classname</span><span class="p">:</span><span class="mi">5</span><span class="n">s</span><span class="si">}</span><span class="s">: </span><span class="si">{</span><span class="n">accuracy</span><span class="p">:.</span><span class="mi">1</span><span class="n">f</span><span class="si">}</span><span class="s">%'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Executing this block will give us the following output:</p>
+
+<p><img src="../assets/images/model-eval1.png" alt="" /></p>
+
+<p>Our model performed quite well on the airplane, automobile, frog, ship, and truck classes. Also interesting to note that the classes it struggled most with are dog and cat, which were also the toughest classes for the fully connected model in the previous part of this series.</p>
+
+<h3 id="confusion-matrix">Confusion Matrix</h3>
+
+<p>We can gain even more insight on performance with a confusion matrix. Let’s set one up, then get a nice visualization.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">num_classes</span> <span class="o">=</span> <span class="mi">10</span>
+
+<span class="n">confusion_matrix</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">num_classes</span><span class="p">,</span> <span class="n">num_classes</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">torch</span><span class="p">.</span><span class="n">no_grad</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">classes</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">):</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="n">classes</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">preds</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">t</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">classes</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">preds</span><span class="p">.</span><span class="n">view</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)):</span>
+                <span class="n">confusion_matrix</span><span class="p">[</span><span class="n">t</span><span class="p">.</span><span class="nb">long</span><span class="p">(),</span> <span class="n">p</span><span class="p">.</span><span class="nb">long</span><span class="p">()]</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div></div>
+
+<p>With <code class="language-plaintext highlighter-rouge">confusion_matrix</code> defined, we can use the Seaborn library to help us visualize it.</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">cf_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'int'</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">test_data</span><span class="p">.</span><span class="n">classes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">test_data</span><span class="p">.</span><span class="n">classes</span><span class="p">)</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cf_dataframe</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s">'g'</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="../assets/images/heatmap.png" alt="" /></p>
+
+<p>The two dimensions of this table are the “actual” and “predicted” values. We want most of our data to align in that center diagonal, where actual and predicted are the same class. From the incorrect predictions we can see the model often confused <code class="language-plaintext highlighter-rouge">cats</code> and <code class="language-plaintext highlighter-rouge">dogs</code>, which were the two classes with the lowest accuracy.</p>
+
+<p>Totals are nice to see, but precision and recall for each class will give us much more meaningful data. Let’s have a look at the recall per class first.</p>
+
+<h3 id="recall-per-class">Recall per Class</h3>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cf</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">)</span>
+<span class="n">norm_cf</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">/</span> <span class="n">cf</span><span class="p">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">).</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">cf_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">norm_cf</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'float64'</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">test_data</span><span class="p">.</span><span class="n">classes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">test_data</span><span class="p">.</span><span class="n">classes</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cf_dataframe</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="../assets/images/heatmap1.png" alt="" /></p>
+
+<h3 id="precision-per-class">Precision per Class</h3>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cf</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">confusion_matrix</span><span class="p">)</span>
+<span class="n">norm_cf</span> <span class="o">=</span> <span class="n">cf</span> <span class="o">/</span> <span class="n">cf</span><span class="p">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">).</span><span class="nb">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+<span class="n">cf_dataframe</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">norm_cf</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s">'float64'</span><span class="p">),</span> <span class="n">index</span><span class="o">=</span><span class="n">test_data</span><span class="p">.</span><span class="n">classes</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="n">test_data</span><span class="p">.</span><span class="n">classes</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+<span class="n">heatmap</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">cf_dataframe</span><span class="p">,</span> <span class="n">annot</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="../assets/images/heatmap2.png" alt="" /></p>
+
+<h1 id="sample-model-predictions">Sample Model Predictions</h1>
+
+<p>Finally, let’s feed our model a few images and check out the predictions it makes. Let’s make a function to get our image data ready to view:</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">img</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">+</span> <span class="p">.</span><span class="mi">05</span> <span class="c1"># revert normalization for viewing
+</span>    <span class="n">npimg</span> <span class="o">=</span> <span class="n">img</span><span class="p">.</span><span class="n">numpy</span><span class="p">()</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">npimg</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">)))</span>
+    <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Now, we can get our test data prepared, and make another function to get a sample of <code class="language-plaintext highlighter-rouge">n</code> predictions</p>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">test_data</span> <span class="o">=</span> <span class="n">CIFAR10</span><span class="p">(</span><span class="n">root</span> <span class="o">=</span> <span class="s">"cifar"</span><span class="p">,</span>
+                    <span class="n">train</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span>
+                    <span class="n">transform</span> <span class="o">=</span> <span class="n">transforms</span><span class="p">.</span><span class="n">ToTensor</span><span class="p">())</span>
+<span class="n">classes</span> <span class="o">=</span> <span class="n">test_data</span><span class="p">.</span><span class="n">classes</span>
+</code></pre></div></div>
+
+<div class="language-py highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sample_predictions</span><span class="p">(</span><span class="n">n</span> <span class="o">=</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">test_dataloader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">test_data</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">dataiter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">test_dataloader</span><span class="p">)</span>
+    <span class="n">images</span><span class="p">,</span> <span class="n">labels</span> <span class="o">=</span> <span class="n">dataiter</span><span class="p">.</span><span class="nb">next</span><span class="p">()</span>
+
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">))</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">predicted</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="nb">max</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">imshow</span><span class="p">(</span><span class="n">make_grid</span><span class="p">(</span><span class="n">images</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'[Ground Truth | Predicted]:</span><span class="se">\n</span><span class="s">'</span><span class="p">,</span> <span class="s">' '</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s">'[</span><span class="si">{</span><span class="n">classes</span><span class="p">[</span><span class="n">labels</span><span class="p">[</span><span class="n">j</span><span class="p">]]:</span><span class="mi">5</span><span class="n">s</span><span class="si">}</span><span class="s"> | </span><span class="si">{</span><span class="n">classes</span><span class="p">[</span><span class="n">predicted</span><span class="p">[</span><span class="n">j</span><span class="p">]]:</span><span class="mi">5</span><span class="n">s</span><span class="si">}</span><span class="s">]</span><span class="se">\n</span><span class="s">'</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)))</span>
+</code></pre></div></div>
+
+<p>Call the function, passing the number of images you want to sample. The output will give us the ground truth and predicted class for each image starting from left to right.</p>
+
+<p><img src="../assets/images/predicted-imgs.png" alt="" /></p>
+
+<p><img src="../assets/images/predicted-imgs1.png" alt="" /></p>
+
+<p>Utilizing a convolutional network with hyperparameter tuning and image augmentation really helped improve the performance on the CIFAR-10 dataset! As always, thanks for reading, and I really hope you’ve learned a bit about PyTorch and CNN’s for image classification. The full Notebook with all of the code presented here is available on <a href="https://github.com/florestony54/intro-to-pytorch-2/blob/main/pytorch2_2.ipynb">GitHub</a>.</p>
+
+                </div>
+            </section>
+
+            <!-- Email subscribe form at the bottom of the page -->
+            
+                <section class="subscribe-form">
+                    <h3 class="subscribe-form-title">Subscribe to Exploring AI</h3>
+                    <p>Get the latest posts delivered right to your inbox</p>
+                    <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+                </section>
+            
+
+            <footer class="post-full-footer">
+                <!-- Everything inside the #author tags pulls data from the author -->
+                <!-- #author-->
+                
+                    
+                        <section class="author-card">
+                            
+                                <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="tony" />
+                            
+                            <section class="author-card-content">
+                                <h4 class="author-card-name"><a href="/author/tony">Tony Flores</a></h4>
+                                
+                                    <p>Software Developer. M.S. in Computer Science. B.S. in Biology. AI/ML enthusiast.</p>
+                                
+                            </section>
+                        </section>
+                        <div class="post-full-footer-right">
+                            <a class="author-card-button" href="/author/tony">Read More</a>
+                        </div>
+                    
+                
+                <!-- /author  -->
+            </footer>
+
+            <!-- If you use Disqus comments, just uncomment this block.
+            The only thing you need to change is "test-apkdzgmqhj" - which
+            should be replaced with your own Disqus site-id. -->
+            
+                <section class="post-full-comments">
+                    <div id="disqus_thread"></div>
+                    <script>
+                        var disqus_config = function () {
+                            var this_page_url = '/21-pytorch-cnn';
+                            var this_page_identifier = '/21-pytorch-cnn';
+                            var this_page_title = 'Intro to PyTorch 2: Convolutional Neural Networks';
+                        };
+                        (function() {
+                            var d = document, s = d.createElement('script');
+                            s.src = 'https://exploring-ai.disqus.com/embed.js';
+                            s.setAttribute('data-timestamp', +new Date());
+                            (d.head || d.body).appendChild(s);
+                        })();
+                    </script>
+                </section>
+            
+
+        </article>
+
+    </div>
+</main>
+
+<!-- Links to Previous/Next posts -->
+<aside class="read-next outer">
+    <div class="inner">
+        <div class="read-next-feed">
+            
+                
+                
+                
+                
+                    <article class="read-next-card"
+                        
+                            style="background-image: url(/assets/images/thelogo.PNG)"
+                        
+                    >
+                        <header class="read-next-card-header">
+                            <small class="read-next-card-header-sitetitle">&mdash; Exploring AI &mdash;</small>
+                            
+                                <h3 class="read-next-card-header-title"><a href="/tag/tutorial/">Tutorial</a></h3>
+                            
+                        </header>
+                        <div class="read-next-divider"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14.5s2 3 5 3 5.5-2.463 5.5-5.5S21 6.5 18 6.5c-5 0-7 11-12 11C2.962 17.5.5 15.037.5 12S3 6.5 6 6.5s4.5 3.5 4.5 3.5"/></svg>
+</div>
+                        <div class="read-next-card-content">
+                            <ul>
+                                
+                                
+                                  
+                                
+                                  
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                    
+                                        
+                                        
+                                            <li><a href="/pytorch-intro">Intro to PyTorch: Part 1</a></li>
+                                        
+                                    
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                                  
+                                
+                            </ul>
+                        </div>
+                        <footer class="read-next-card-footer">
+                            <a href="/tag/tutorial/">
+                                
+                                    See all 1 posts  →
+                                
+                            </a>
+                        </footer>
+                    </article>
+                
+            
+
+            <!-- If there's a next post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/chemistry-ml">
+                <div class="post-card-image" style="background-image: url(/assets/images/chem-ml-hero.png)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/chemistry-ml">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Applications</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Series</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Literature review</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Machine Learning in Chemistry</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>Machine Learning in Chemistry
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="Tony Flores" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/tony/">Tony Flores</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      12 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+            <!-- If there's a previous post, display it using the same markup included from - partials/post-card.hbs -->
+            
+                
+
+    <article class="post-card post-template">
+        
+            <a class="post-card-image-link" href="/polymer-ml">
+                <div class="post-card-image" style="background-image: url(/assets/images/rings.jpg)"></div>
+            </a>
+        
+        <div class="post-card-content">
+            <a class="post-card-content-link" href="/polymer-ml">
+                <header class="post-card-header">
+                    
+                        
+                            
+                               <span class="post-card-tags">Applications</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Literature review</span>
+                            
+                        
+                            
+                               <span class="post-card-tags">Series</span>
+                            
+                        
+                            
+                                <span class="post-card-tags">Machine learning</span>
+                            
+                        
+                    
+
+                    <h2 class="post-card-title">Machine Learning in Materials Science</h2>
+                </header>
+                <section class="post-card-excerpt">
+                    
+                        <p>Machine Learning in Materials Science
+
+</p>
+                    
+                </section>
+            </a>
+            <footer class="post-card-meta">
+                
+                    
+                        
+                        <img class="author-profile-image" src="/assets/images/myicon.PNG" alt="Tony Flores" />
+                        
+                        <span class="post-card-author">
+                            <a href="/author/tony/">Tony Flores</a>
+                        </span>
+                    
+                
+                <span class="reading-time">
+                    
+                    
+                      7 min read
+                    
+                </span>
+            </footer>
+        </div>
+    </article>
+
+            
+
+        </div>
+    </div>
+</aside>
+
+<!-- Floating header which appears on-scroll, included from includes/floating-header.hbs -->
+<div class="floating-header">
+    <div class="floating-header-logo">
+        <a href="/">
+            
+            <span>Exploring AI</span>
+        </a>
+    </div>
+    <span class="floating-header-divider">&mdash;</span>
+    <div class="floating-header-title">Intro to PyTorch 2: Convolutional Neural Networks</div>
+    <div class="floating-header-share">
+        <div class="floating-header-share-label">Share this <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M7.5 15.5V4a1.5 1.5 0 1 1 3 0v4.5h2a1 1 0 0 1 1 1h2a1 1 0 0 1 1 1H18a1.5 1.5 0 0 1 1.5 1.5v3.099c0 .929-.13 1.854-.385 2.748L17.5 23.5h-9c-1.5-2-5.417-8.673-5.417-8.673a1.2 1.2 0 0 1 1.76-1.605L7.5 15.5zm6-6v2m-3-3.5v3.5m6-1v2"/>
+</svg>
+</div>
+        <a class="floating-header-share-tw" href="https://twitter.com/share?text=Intro+to+PyTorch+2%3A+Convolutional+Neural+Networks&amp;url=https://exploring-ai.com/21-pytorch-cnn"
+            onclick="window.open(this.href, 'share-twitter', 'width=550,height=235');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M30.063 7.313c-.813 1.125-1.75 2.125-2.875 2.938v.75c0 1.563-.188 3.125-.688 4.625a15.088 15.088 0 0 1-2.063 4.438c-.875 1.438-2 2.688-3.25 3.813a15.015 15.015 0 0 1-4.625 2.563c-1.813.688-3.75 1-5.75 1-3.25 0-6.188-.875-8.875-2.625.438.063.875.125 1.375.125 2.688 0 5.063-.875 7.188-2.5-1.25 0-2.375-.375-3.375-1.125s-1.688-1.688-2.063-2.875c.438.063.813.125 1.125.125.5 0 1-.063 1.5-.25-1.313-.25-2.438-.938-3.313-1.938a5.673 5.673 0 0 1-1.313-3.688v-.063c.813.438 1.688.688 2.625.688a5.228 5.228 0 0 1-1.875-2c-.5-.875-.688-1.813-.688-2.75 0-1.063.25-2.063.75-2.938 1.438 1.75 3.188 3.188 5.25 4.25s4.313 1.688 6.688 1.813a5.579 5.579 0 0 1 1.5-5.438c1.125-1.125 2.5-1.688 4.125-1.688s3.063.625 4.188 1.813a11.48 11.48 0 0 0 3.688-1.375c-.438 1.375-1.313 2.438-2.563 3.188 1.125-.125 2.188-.438 3.313-.875z"/></svg>
+
+        </a>
+        <a class="floating-header-share-fb" href="https://www.facebook.com/sharer/sharer.php?u=https://exploring-ai.com/21-pytorch-cnn"
+            onclick="window.open(this.href, 'share-facebook','width=580,height=296');return false;">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M19 6h5V0h-5c-3.86 0-7 3.14-7 7v3H8v6h4v16h6V16h5l1-6h-6V7c0-.542.458-1 1-1z"/></svg>
+
+        </a>
+    </div>
+    <progress class="progress" value="0">
+        <div class="progress-container">
+            <span class="progress-bar"></span>
+        </div>
+    </progress>
+</div>
+
+
+<!-- /post -->
+
+<!-- The #contentFor helper here will send everything inside it up to the matching #block helper found in default.hbs -->
+
+
+        <!-- Previous/next page links - displayed on every page -->
+        
+
+        <!-- The footer at the very bottom of the screen -->
+        <footer class="site-footer outer">
+            <div class="site-footer-content inner">
+                <section class="copyright"><a href="/">Exploring AI</a> &copy; 2024</section>
+                <section class="poweredby">Proudly published with <a href="https://jekyllrb.com/">Jekyll</a> &
+                    <a href="https://pages.github.com/" target="_blank" rel="noopener">GitHub Pages</a> using
+                    <a href="https://github.com/jekyllt/jasper2" target="_blank" rel="noopener">Jasper2</a></section>
+                <nav class="site-footer-nav">
+                    <a href="/">Latest Posts</a>
+                    
+                    <a href="https://twitter.com/exploringaiblog" target="_blank" rel="noopener">Twitter</a>
+                    <!-- <a href="https://ghost.org" target="_blank" rel="noopener">Ghost</a> -->
+                </nav>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- The big email subscribe modal content -->
+    
+        <div id="subscribe" class="subscribe-overlay">
+            <a class="subscribe-overlay-close" href="#"></a>
+            <div class="subscribe-overlay-content">
+                
+                <h1 class="subscribe-overlay-title">Subscribe to Exploring AI</h1>
+                <p class="subscribe-overlay-description">Stay up to date! Get all the latest &amp; greatest posts delivered straight to your inbox</p>
+                <form method="post" action="/subscribe/" class="">
+    <input class="confirm" type="hidden" name="confirm"  /><input class="location" type="hidden" name="location"  /><input class="referrer" type="hidden" name="referrer"  />
+
+    <div class="form-group">
+        <input class="subscribe-email" type="email" name="email"  placeholder="youremail@example.com" />
+    </div>
+    <button class="" type="submit" disabled><span>Subscribe</span></button>
+    <script type="text/javascript">(function(g,h,o,s,t){h[o]('.location')[s]=h[o]('.location')[s] || g.location.href;h[o]('.referrer')[s]=h[o]('.referrer')[s] || h.referrer;})(window,document,'querySelector','value');</script>
+</form>
+
+            </div>
+        </div>
+    
+
+    <!-- highlight.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.10.0/components/prism-abap.min.js"></script>
+    <script>$(document).ready(function() {
+      $('pre code').each(function(i, block) {
+        hljs.highlightBlock(block);
+      });
+    });</script>
+
+    <!-- jQuery + Fitvids, which makes all video embeds responsive -->
+    <script
+        src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/assets/js/jquery.fitvids.js"></script>
+    <script type="text/javascript" src="https://demo.ghost.io/assets/js/jquery.fitvids.js?v=724281a32e"></script>
+
+
+    <!-- Paginator increased to "infinit" in _config.yml -->
+    <!-- if paginator.posts  -->
+    <!-- <script>
+        var maxPages = parseInt('');
+    </script>
+    <script src="/assets/js/infinitescroll.js"></script> -->
+    <!-- /endif -->
+
+    
+
+
+    <!-- Add Google Analytics  -->
+    <!-- Google Analytics Tracking code -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-34GQSQ4DKR"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-34GQSQ4DKR');
+</script>
+
+    <!-- The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in post.hbs, but it needs to be included down here, after jQuery has already loaded. -->
+    
+        <script>
+
+// NOTE: Scroll performance is poor in Safari
+// - this appears to be due to the events firing much more slowly in Safari.
+//   Dropping the scroll event and using only a raf loop results in smoother
+//   scrolling but continuous processing even when not scrolling
+$(document).ready(function () {
+    // Start fitVids
+    var $postContent = $(".post-full-content");
+    $postContent.fitVids();
+    // End fitVids
+
+    var progressBar = document.querySelector('progress');
+    var header = document.querySelector('.floating-header');
+    var title = document.querySelector('.post-full-title');
+
+    var lastScrollY = window.scrollY;
+    var lastWindowHeight = window.innerHeight;
+    var lastDocumentHeight = $(document).height();
+    var ticking = false;
+
+    function onScroll() {
+        lastScrollY = window.scrollY;
+        requestTick();
+    }
+
+    function onResize() {
+        lastWindowHeight = window.innerHeight;
+        lastDocumentHeight = $(document).height();
+        requestTick();
+    }
+
+    function requestTick() {
+        if (!ticking) {
+            requestAnimationFrame(update);
+        }
+        ticking = true;
+    }
+
+    function update() {
+        var trigger = title.getBoundingClientRect().top + window.scrollY;
+        var triggerOffset = title.offsetHeight + 35;
+        var progressMax = lastDocumentHeight - lastWindowHeight;
+
+        // show/hide floating header
+        if (lastScrollY >= trigger + triggerOffset) {
+            header.classList.add('floating-active');
+        } else {
+            header.classList.remove('floating-active');
+        }
+
+        progressBar.setAttribute('max', progressMax);
+        progressBar.setAttribute('value', lastScrollY);
+
+        ticking = false;
+    }
+
+    window.addEventListener('scroll', onScroll, {passive: true});
+    window.addEventListener('resize', onResize, false);
+
+    update();
+});
+</script>
+
+    
+
+    <!-- Ghost outputs important scripts and data with this tag - it should always be the very last thing before the closing body tag -->
+    <!-- ghost_foot -->
+
+</body>
+</html>
