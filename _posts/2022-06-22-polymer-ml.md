@@ -5,7 +5,7 @@ cover:  assets/images/rings.jpg
 navigation: True
 title: Machine Learning in Materials Science
 date: 2022-06-22 08:00:00
-tags: [applications, literature review, series, machine learning]
+tags: [applications, literature-review, machine-learning]
 class: post-template
 subclass: 'post'
 author: tony

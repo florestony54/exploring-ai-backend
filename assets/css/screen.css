@@ -441,6 +441,37 @@ The knock-on effect of this is ugly browser-scroll bars at the bottom, so 80px o
     border-radius: 2px;
 }
 
+.tag-literature-review {
+    background-color: #ff7061 ;
+}
+
+.tag-applications {
+    background-color: #fffc61 ;
+}
+
+.tag-deep-learning {
+    background-color: #9861ff ;
+}
+
+.tag-Tutorial{
+    background-color: #55ff4f ;
+}
+
+.tag-machine-learning {
+    background-color: #ff2121 ;
+}
+
+.tag-basics {
+    background-color: #364af8 ;
+    color: white;
+}
+
+.tag-computer-vision {
+    background-color: #848883;
+    color: white;
+}
+
+
 .post-card-title {
     margin-top: 0;
 }

@@ -70,8 +70,8 @@ lsi: False
 username: florestony54
 repo: exploring-ai
 branch: master
-relative_source: ../jasper2/
-destination: ../../docs/
+relative_source: ../exploring-ai/jasper2/
+destination: ../exploring-ai/docs/
 production_url:  https://exploring-ai.com/
 source_url:  https://github.com/florestony54/exploring-ai/
 

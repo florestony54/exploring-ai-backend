@@ -5,7 +5,7 @@ cover:  assets/images/chem-ml-hero.png
 navigation: True
 title: "Machine Learning in Chemistry"
 date: 2024-02-9 08:00:00
-tags: [applications, series, literature review]
+tags: [applications, literature-review, machine-learning]
 class: post-template
 subclass: 'post'
 author: tony
